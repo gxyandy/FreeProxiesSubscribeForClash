@@ -1,0 +1,517 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <meta name="csrf-token" content="xymyZ3zUnaQJ9kfay3uCIy6PyDpYPepVA6eXarwOuA5Wqm4C8g9lDdYFXVadP1dR">
+
+    <title> </title>
+    <link rel="stylesheet" href="/static/dist/css/bootstrap.min.css">
+    <!-- 最新的 Bootstrap5 核心 JavaScript 文件 -->
+    <script src="/static/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        .brand-color {
+            fill: #212529;
+        }
+
+        
+        .brand-text-color {
+            fill: #0D6EFD;
+        }
+
+    </style>
+<!-- 加载客服插件 -->
+<script src="https://qhub.top/blog/static/chatwidget/widget.js"></script>
+</head>
+
+
+<body>
+
+<main>
+
+    <!-- Modal Structure -->
+    <div class="modal modal-sheet bg-body-secondary p-4 py-md-5 bg-opacity-50" tabindex="-1" role="dialog"
+         id="modalSheet">
+        <div class="modal-dialog " role="document">
+            <div class="modal-content rounded-4 shadow">
+                <div class="modal-header border-bottom-0">
+                    <h1 class="modal-title fs-5">订阅加时</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body py-0">
+                    <div id="errorMessage" class="text-danger"></div>
+
+                    <form>
+                        <input type="hidden" name="csrfmiddlewaretoken" value="xymyZ3zUnaQJ9kfay3uCIy6PyDpYPepVA6eXarwOuA5Wqm4C8g9lDdYFXVadP1dR">
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control" id="codeInput" placeholder="BLUE2">
+                            <label for="floatingInput">加时卡卡号</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer flex-column align-items-stretch w-100 gap-2 pb-3 border-top-0">
+                    <button type="button" class="btn btn-lg btn-primary" id="extendSubscriptionBtn">提交</button>
+                    <button type="button" class="btn btn-lg btn-secondary" data-bs-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-3">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <a href="/"
+               class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                <div style="width: 100%; height:40px;">
+                    <svg width="391" height="166" xmlns="http://www.w3.org/2000/svg"
+                         style="transform:  translate(-20px, -104px);">
+                        <g data-v-0dd9719b="" fill="#6fa8dc" class=" icon-text-wrapper icon-svg-group iconsvg"
+                           transform="translate(69.98062133789062,95.00329971313477)">
+                            <g class="  iconsvg-imagesvg" transform="translate(0,0)">
+                                <g>
+                                    <rect fill="#6fa8dc" fill-opacity="0" stroke-width="2" x="0" y="0"
+                                          width="60.000000000000234" height="59.99340072592038"
+                                          class="image-rect"></rect>
+                                    <svg filter="url(#colors6464217055)" x="0" y="0" width="60.000000000000234"
+                                         height="59.99340072592038" filtersec="colorsf1073147927"
+                                         class="image-svg-svg primary" style="overflow: visible;">
+                                        <svg fill="#000000" xmlns="http://www.w3.org/2000/svg"
+                                             viewBox="26.997404098510742 26.982276916503906 46.04547882080078 46.04058837890625"
+                                             x="0px" y="0px"><title>Creator Icon_35</title>
+                                            <path class="brand-text-color"
+                                                  d="M28.73145,71.27979a6.52329,6.52329,0,0,0,4.79395,1.7334,19.26445,19.26445,0,0,0,7.649-1.98059,22.33075,22.33075,0,0,0,29.5545-29.19952c2.63623-5.48358,3.28912-10.36365.53967-13.11285-2.57483-2.57483-7.42059-2.27753-13.65155.81787A22.33647,22.33647,0,0,0,29.21875,58.3045C26.43909,64.20575,26.25848,68.80634,28.73145,71.27979Zm40.792-20.67969a19.29929,19.29929,0,0,1-24.7403,18.55505A68.08966,68.08966,0,0,0,58.42578,58.42627,70.64984,70.64984,0,0,0,68.79126,45.3938,19.24513,19.24513,0,0,1,69.52344,50.6001Zm-.376-19.75879c1.26581,1.26605,1.16241,4.02-.2226,7.62323a22.49828,22.49828,0,0,0-7.68573-7.26361C64.95,29.73364,67.87781,29.57208,69.14746,30.84131Zm-18.96191.4209A19.3436,19.3436,0,0,1,67.38831,41.80933,62.54568,62.54568,0,0,1,56.30469,56.30518a61.26517,61.26517,0,0,1-15.12842,11.392,19.3295,19.3295,0,0,1,9.00928-36.43494ZM37.77,69.15924c-3.246,1.12408-5.758,1.15814-6.91742-.00055-1.20258-1.20294-1.12958-3.82178.10114-7.21594A22.50613,22.50613,0,0,0,37.77,69.15924Z"></path>
+                                        </svg>
+                                    </svg>
+
+                                </g>
+                            </g>
+                            <g transform="translate(67,0.5332622528076172)">
+                                <g data-gra="path-name" fill-rule="" class="brand-color iconsvg-namesvg"
+                                   transform="translate(0,0)">
+                                    <g transform="scale(1)">
+                                        <g>
+                                            <path d="M42.6 2.35Q41.72 3.59 39.93 3.04L39.93 3.04Q28.24-1.06 23.28-13.62L23.28-13.62Q20.1-2.76 6.67 2.67L6.67 2.67Q4.23 3.59 3.4 2.35L3.4 2.35Q2.81 1.47 3.63 0.6L3.63 0.6Q4.28-0.14 5.61-0.64L5.61-0.64Q12.74-3.73 16.47-8.33L16.47-8.33Q19.5-12.1 20.47-17.25L20.47-17.25 4.88-17.25Q3.13-17.25 3.13-19 3.13-20.75 4.88-20.75L4.88-20.75 20.79-20.75Q20.88-21.62 20.88-23.37L20.88-23.37 20.88-31.46 4.83-31.46Q3.08-31.46 3.08-33.21 3.08-34.96 4.83-34.96L4.83-34.96 41.12-34.96Q42.87-34.96 42.87-33.21 42.87-31.46 41.12-31.46L41.12-31.46 24.47-31.46 24.47-23.32Q24.47-21.62 24.43-20.75L24.43-20.75 41.08-20.75Q42.83-20.75 42.83-19 42.83-17.25 41.08-17.25L41.08-17.25 25.44-17.25Q29.62-4.55 41.12-0.46L41.12-0.46Q43.98 0.37 42.6 2.35L42.6 2.35ZM81.7-4.09Q80.36-3.96 77.37-4.05L77.37-4.05Q75.35-4.09 74.89-5.98L74.89-5.98 74.84-6.03Q74.11-7.59 76.18-7.45L76.18-7.45Q78.02-7.36 80.36-7.36L80.36-7.36Q81.51-7.31 82.16-7.96L82.16-7.96Q82.98-8.83 83.54-12.7L83.54-12.7Q84.04-16.61 84.46-25.12L84.46-25.12Q84.5-26.22 84.32-26.63L84.32-26.63Q84.09-27 83.58-27L83.58-27 74.43-27Q73.74-19.46 71.71-14.54L71.71-14.54Q69.32-8.69 64.54-5.11L64.54-5.11Q63.02-4 61.92-5.11L61.92-5.11Q60.54-6.49 62.56-7.87L62.56-7.87Q66.65-11.04 68.68-16.15L68.68-16.15Q70.43-20.47 70.98-27L70.98-27 63.53-27Q61.87-27 61.87-28.66 61.87-30.31 63.53-30.31L63.53-30.31 71.21-30.31Q71.25-31.56 71.3-34.13L71.3-34.13Q71.35-35.37 71.35-36.02L71.35-36.02Q71.44-37.81 73.14-37.81L73.14-37.81Q74.98-37.81 74.89-36.02L74.89-36.02Q74.84-34.09 74.66-30.31L74.66-30.31 85.28-30.31Q86.62-30.31 87.22-29.26L87.22-29.26Q87.91-28.01 87.77-25.07L87.77-25.07Q87.31-15.32 86.76-11.13L86.76-11.13Q86.2-7.04 85.15-5.75L85.15-5.75Q83.9-4.23 81.7-4.09L81.7-4.09ZM73.28 3.04L73.28 3.04Q68.59 3.04 65.73 2.53L65.73 2.53Q62.61 1.93 60.21 0.46L60.21 0.46Q59.57 0.05 58.42-0.87L58.42-0.87Q56.49-2.44 55.8-2.44L55.8-2.44Q54.51-2.44 51.93 1.01L51.93 1.01Q51.15 2.12 50.28 2.35L50.28 2.35Q49.31 2.67 48.62 1.75L48.62 1.75Q48.12 1.1 48.25 0.28L48.25 0.28Q48.39-0.51 48.99-1.2L48.99-1.2Q52.03-4.46 54.28-5.38L54.28-5.38 54.28-18.68Q54.28-19.64 53.31-19.64L53.31-19.64 50-19.64Q48.35-19.64 48.35-21.34L48.35-21.34Q48.35-23 50-23L50-23 55.48-23Q56.49-23 57.06-22.43 57.64-21.85 57.64-20.84L57.64-20.84 57.64-5.11Q57.96-4.88 58.65-4.37L58.65-4.37Q60.08-3.27 61.09-2.62L61.09-2.62Q63.2-1.29 66.33-0.74L66.33-0.74Q68.91-0.32 73.32-0.32L73.32-0.32Q81.14-0.32 88.14-1.06L88.14-1.06Q89.42-1.2 89.79-0.76 90.16-0.32 89.79 0.97L89.79 0.97Q89.52 1.93 89.29 2.21L89.29 2.21Q88.96 2.53 88.09 2.58L88.09 2.58Q80.45 3.04 73.28 3.04ZM58.51-29.16Q57.78-28.61 57.22-28.63 56.67-28.66 56.12-29.39L56.12-29.39Q55.25-30.59 54.05-31.88L54.05-31.88Q52.95-33.17 51.43-34.68L51.43-34.68Q50.09-35.93 51.61-36.98L51.61-36.98Q52.72-37.77 53.77-36.8L53.77-36.8Q57.18-33.49 58.97-31.33L58.97-31.33Q59.85-30.22 58.51-29.16L58.51-29.16ZM124.66 3.4L124.66 3.4Q122.91 3.4 122.91 1.66L122.91 1.66 122.91-16.24Q118.68-20.84 116.15-25.25L116.15-25.25Q111.64-5.7 98.58 2.53L98.58 2.53Q97.84 2.94 97.34 2.9 96.83 2.85 96.23 2.25L96.23 2.25Q95.36 1.43 95.47 0.8 95.59 0.18 96.69-0.46L96.69-0.46Q103.73-4.92 108.15-12.79L108.15-12.79Q104.65-16.1 99.41-19.32L99.41-19.32Q98.44-17.94 97.61-17.07L97.61-17.07Q96.42-15.82 95.13-16.84L95.13-16.84Q94.35-17.48 94.28-18.01 94.21-18.54 94.94-19.27L94.94-19.27Q100.88-25.76 104.05-36.75L104.05-36.75Q104.51-38.55 106.12-38.18L106.12-38.18Q107.87-37.81 107.36-36.06L107.36-36.06Q106.77-34.09 105.8-31.46L105.8-31.46 114.45-31.46Q115.69-31.46 116.33-30.66 116.98-29.85 116.79-28.47L116.79-28.47Q116.75-28.11 116.61-27.46L116.61-27.46Q116.56-27.14 116.52-26.96L116.52-26.96 117.53-27.37Q118.27-27.65 118.63-27L118.63-27Q120.24-24.2 122.91-20.93L122.91-20.93 122.91-36.71Q122.91-38.46 124.66-38.46L124.66-38.46Q126.41-38.46 126.41-36.71L126.41-36.71 126.41-17.34Q130.5-13.48 134.83-11.13L134.83-11.13Q135.93-10.58 136.09-9.94 136.25-9.29 135.52-8.37L135.52-8.37Q134.5-7.13 133.03-8L133.03-8Q129.58-10.03 126.41-12.88L126.41-12.88 126.41 1.66Q126.41 3.4 124.66 3.4ZM109.66-15.87L109.66-15.87Q112.19-21.57 113.39-28.29L113.39-28.29 104.51-28.29Q102.9-24.56 101.15-21.9L101.15-21.9Q106.63-18.63 109.66-15.87Z"
+                                                  transform="translate(-3.0799999237060547, 38.459999084472656)"></path>
+                                        </g> <!----> <!----> <!----> <!----> <!----> <!----> <!----></g>
+                                </g>
+                                <g data-gra="path-slogan" fill-rule=""
+                                   class=" brand-color tp-slogan iconsvg-slogansvg"
+                                   fill="#6fa8dc" transform="translate(8.419380187988281,46.86000061035156)"><!---->
+                                    <!---->
+                                    <g transform="scale(1, 1)">
+                                        <g transform="scale(1)">
+                                            <path d="M1.59-9.33L1.59-9.33Q1.64-9.33 1.88-9.33L1.88-9.33Q2.77-9.23 3.23-9.23L3.23-9.23L9.38-9.23Q10.50-9.23 11.06-9.33L11.06-9.33L11.06-8.39Q10.22-8.48 9.38-8.48L9.38-8.48L7.22-8.48Q7.08-7.92 6.94-7.59L6.94-7.59L8.58-7.59Q9.94-7.59 10.22-7.64L10.22-7.64Q10.13-7.27 10.13-6.42L10.13-6.42L10.13-5.63Q10.13-4.78 10.22-4.27L10.22-4.27Q9.80-4.36 8.77-4.36L8.77-4.36L7.41-4.36L7.41-2.95Q7.69-2.02 5.81-1.97L5.81-1.97Q5.81-2.34 5.48-2.91L5.48-2.91Q6.52-2.53 6.56-3.14L6.56-3.14L6.56-4.36L5.16-4.36Q4.17-4.36 3.66-4.27L3.66-4.27Q3.66-4.27 3.66-4.31L3.66-4.31Q3.75-4.73 3.75-5.63L3.75-5.63L3.75-6.42Q3.75-7.17 3.66-7.69L3.66-7.69Q3.98-7.59 5.02-7.59L5.02-7.59L6.09-7.59Q6.28-8.06 6.28-8.48L6.28-8.48L2.67-8.48Q2.72-4.17 2.39-2.58L2.39-2.58Q2.11-0.70 1.08 0.89L1.08 0.89Q0.70 0.47 0.14 0.14L0.14 0.14Q1.03-0.80 1.36-2.30L1.36-2.30Q1.69-3.80 1.69-6.94L1.69-6.94L1.69-7.69Q1.69-8.95 1.59-9.33ZM9.14-6.94L4.64-6.94L4.64-6.28L9.14-6.28L9.14-6.94ZM9.19-5.67L4.64-5.67L4.64-4.97L9.19-4.97L9.19-5.67ZM4.83-4.03L4.83-4.03Q5.53-3.61 5.72-3.42L5.72-3.42Q5.72-3.38 5.58-3.33L5.58-3.33Q5.34-3.28 5.16-3.19L5.16-3.19Q5.02-3.05 4.50-2.77L4.50-2.77Q3.80-2.30 3.52-2.06L3.52-2.06Q3.33-2.39 2.67-2.67L2.67-2.67Q4.08-3.23 4.83-4.03ZM8.02-3.23L8.63-3.89Q9.42-3.56 10.92-2.63L10.92-2.63L10.27-1.83Q9.61-2.44 8.02-3.23L8.02-3.23ZM6.33-1.55L7.27-1.69Q7.27-1.64 7.31-1.50L7.31-1.50Q7.55-0.84 7.64-0.47L7.64-0.47L6.75-0.33Q6.56-1.08 6.33-1.55L6.33-1.55ZM8.95-1.13L9.70-1.59Q10.64-0.66 11.30 0.23L11.30 0.23L10.41 0.80Q10.03 0 8.95-1.13L8.95-1.13ZM3.28-1.59L3.28-1.59Q4.17-1.41 4.31-1.31L4.31-1.31Q4.31-1.31 4.27-1.27L4.27-1.27Q4.03-1.03 3.89-0.75L3.89-0.75Q3.61-0.19 3 0.80L3 0.80Q2.63 0.47 1.92 0.38L1.92 0.38Q3.05-0.47 3.28-1.59ZM4.64-1.59L4.64-1.59Q5.77-1.59 5.72-1.45L5.72-1.45Q5.72-1.41 5.67-1.36L5.67-1.36Q5.53-1.08 5.53-0.66L5.53-0.66L5.53-0.19Q5.44 0.28 6.14 0.28L6.14 0.28L7.59 0.28Q8.30 0.28 8.30-0.80L8.30-0.80Q8.67-0.47 9.28-0.14L9.28-0.14Q8.86 1.08 7.78 0.94L7.78 0.94L6 0.94Q4.55 0.98 4.69 0.23L4.69 0.23L4.69-0.66Q4.69-1.41 4.64-1.59ZM20.48-9.80L20.48-9.80Q21.75-9.56 21.66-9.38L21.66-9.38Q21.66-9.33 21.56-9.23L21.56-9.23Q21.23-8.91 20.91-8.39L20.91-8.39L24.09-8.39Q24.33-8.39 25.13-8.44L25.13-8.44Q25.88-8.44 26.11-8.44L26.11-8.44L26.11-7.55Q25.59-7.59 24.09-7.59L24.09-7.59L20.44-7.59Q20.34-7.45 20.16-7.27L20.16-7.27Q20.06-7.13 19.83-6.75L19.83-6.75Q20.48-6.66 21.28-6.66L21.28-6.66L23.06-6.66Q24.42-6.70 25.17-6.75L25.17-6.75Q25.17-6.61 25.13-6L25.13-6Q25.08-5.39 25.03-5.20L25.03-5.20L24.98-4.03Q25.73-4.03 26.39-4.08L26.39-4.08L26.39-3.23Q26.02-3.28 24.98-3.28L24.98-3.28L24.89-1.22Q25.27-1.22 25.97-1.27L25.97-1.27L25.97-0.47Q25.78-0.47 25.31-0.52L25.31-0.52Q24.98-0.52 24.89-0.52L24.89-0.52Q24.89 0.61 24.52 0.84L24.52 0.84Q23.81 1.17 22.78 1.27L22.78 1.27Q22.78 0.66 22.31 0.14L22.31 0.14Q24.05 0.47 24-0.52L24-0.52L21.61-0.52Q19.92-0.47 19.17-0.42L19.17-0.42Q19.41-1.83 19.59-3.28L19.59-3.28Q18.47-3.28 18.47-3.23L18.47-3.23L18.47-4.08Q18.47-4.08 19.69-4.03L19.69-4.03Q19.88-6.05 19.78-6.66L19.78-6.66Q19.22-5.91 18.94-5.58L18.94-5.58Q18.61-5.91 18-6.05L18-6.05Q19.59-7.64 20.48-9.80ZM16.17-8.63L16.92-9.38Q17.72-9 18.80-8.02L18.80-8.02L18.05-7.17Q17.30-8.02 16.17-8.63L16.17-8.63ZM15.42-5.77L16.03-6.61Q17.06-6.19 18.23-5.39L18.23-5.39L17.58-4.41Q16.88-5.06 15.42-5.77L15.42-5.77ZM24.14-5.86L20.63-5.86L20.53-4.03L24.09-4.03L24.14-5.86ZM21.61-5.44L22.36-5.72Q22.78-5.11 22.97-4.45L22.97-4.45L22.13-4.17Q21.98-4.78 21.61-5.44L21.61-5.44ZM17.16-3.94L17.16-3.94L18.09-3.38Q17.72-1.69 16.92 0.98L16.92 0.98L15.80 0.19Q16.59-1.36 17.16-3.94ZM20.48-3.33L20.25-1.22L24.05-1.22L24.09-3.33L20.48-3.33ZM21.38-2.81L22.17-3.05Q22.22-2.95 22.31-2.77L22.31-2.77Q22.78-2.02 22.88-1.73L22.88-1.73L21.94-1.36Q21.80-2.11 21.38-2.81L21.38-2.81ZM37.41-9.75L37.41-9.75Q38.67-9.38 38.67-9.23L38.67-9.23Q38.67-9.19 38.58-9.14L38.58-9.14Q38.39-9.05 38.34-8.86L38.34-8.86Q37.92-8.16 37.69-7.41L37.69-7.41L39.42-7.41Q40.45-7.41 41.02-7.45L41.02-7.45Q40.64-1.31 40.55-0.23L40.55-0.23Q40.41 1.08 37.97 1.17L37.97 1.17Q37.83 0.47 37.41-0.05L37.41-0.05Q38.67 0.19 39.33-0.09L39.33-0.09Q39.66-0.05 39.80-4.27L39.80-4.27Q39.89-5.77 39.94-6.66L39.94-6.66L37.36-6.66Q36.89-5.77 36.23-4.59L36.23-4.59Q35.81-4.88 35.39-4.97L35.39-4.97L35.39-0.75Q35.39 0.42 35.44 0.75L35.44 0.75L34.36 0.75Q34.41 0.33 34.41-0.38L34.41-0.38L32.11-0.38Q32.11 0.33 32.16 0.84L32.16 0.84L31.08 0.84Q31.13 0.42 31.13-0.70L31.13-0.70L31.13-5.72Q31.13-5.91 31.08-6.61L31.08-6.61Q31.08-7.22 31.08-7.36L31.08-7.36Q31.78-7.31 32.11-7.31L32.11-7.31L32.44-7.31Q32.58-8.06 32.67-9.61L32.67-9.61Q33.98-9.47 33.89-9.28L33.89-9.28Q33.89-9.19 33.80-9.09L33.80-9.09Q33.70-9 33.66-8.86L33.66-8.86Q33.52-8.53 33.38-7.92L33.38-7.92Q33.28-7.55 33.23-7.31L33.23-7.31L34.03-7.31Q34.41-7.31 35.44-7.36L35.44-7.36Q35.39-7.03 35.39-5.86L35.39-5.86L35.39-5.20Q36.84-6.84 37.41-9.75ZM34.41-6.56L32.11-6.56L32.11-4.13L34.41-4.13L34.41-6.56ZM36.61-4.17L37.41-4.64Q37.69-4.27 38.39-2.91L38.39-2.91Q38.58-2.63 38.63-2.48L38.63-2.48L37.73-2.02Q37.59-2.58 36.61-4.17L36.61-4.17ZM34.41-3.42L32.11-3.42L32.11-1.13L34.41-1.13L34.41-3.42ZM51.38-9.19L52.50-9.38Q52.88-8.63 53.02-7.83L53.02-7.83L51.84-7.64Q51.66-8.58 51.38-9.19L51.38-9.19ZM46.55-8.67L47.53-8.95Q48.05-7.69 48.28-6.70L48.28-6.70L47.16-6.47Q46.92-7.92 46.55-8.67L46.55-8.67ZM55.88-7.41L55.88-7.41L55.88-6.33Q55.59-6.42 54.56-6.42L54.56-6.42L54.38-6.42Q54.05-4.73 53.25-3.61L53.25-3.61Q53.86-3.09 54.89-2.30L54.89-2.30Q55.36-1.88 55.64-1.64L55.64-1.64L54.66-0.75Q54.19-1.36 53.20-2.39L53.20-2.39Q52.83-2.77 52.69-2.91L52.69-2.91Q51.61-1.78 49.45-0.80L49.45-0.80Q49.13-1.45 48.61-1.73L48.61-1.73Q50.53-2.20 51.94-3.52L51.94-3.52Q50.58-4.69 49.45-5.39L49.45-5.39L50.34-6.05Q51.56-4.97 52.55-4.22L52.55-4.22Q53.11-5.16 53.34-6.47L53.34-6.47L50.58-6.47Q49.69-6.47 48.89-6.38L48.89-6.38L48.89-7.41Q49.22-7.31 50.58-7.31L50.58-7.31L54.47-7.31Q55.69-7.31 55.88-7.41ZM45.75-4.17L45.75-5.25Q46.27-5.16 46.83-5.16L46.83-5.16L46.97-5.16Q47.44-5.16 48.09-5.25L48.09-5.25Q48.05-5.25 48.19-5.25L48.19-5.25Q48.09-5.11 48.09-3.89L48.09-3.89L48.09-0.94Q49.22-0.33 49.97-0.19L49.97-0.19Q50.67-0.05 52.31-0.05L52.31-0.05Q55.22-0.14 56.34-0.33L56.34-0.33Q55.78 0.14 55.73 0.84L55.73 0.84Q51.38 0.84 50.25 0.70L50.25 0.70Q49.45 0.61 48.42 0.09L48.42 0.09Q47.77-0.14 47.48-0.14L47.48-0.14Q46.83-0.09 46.31 0.84L46.31 0.84L45.33 0.09Q46.17-0.56 47.06-1.03L47.06-1.03L47.06-4.27Q46.31-4.27 45.80-4.17L45.80-4.17Q45.80-4.17 45.75-4.17L45.75-4.17ZM66.61-9.56L66.61-9.56Q67.92-9.47 67.97-9.33L67.97-9.33Q67.97-9.28 67.88-9.19L67.88-9.19Q67.78-9.05 67.73-8.86L67.73-8.86Q67.59-7.27 67.36-4.97L67.36-4.97Q67.22-4.03 67.22-3.84L67.22-3.84L69.19-3.84Q70.22-3.84 71.20-3.94L71.20-3.94L71.20-2.91Q70.41-3 69.19-3L69.19-3L67.08-3Q66.33-0.19 61.97 0.89L61.97 0.89Q61.41 0.14 60.98-0.05L60.98-0.05Q65.02-0.47 66.05-2.95L66.05-2.95L62.77-2.95Q61.83-2.95 60.80-2.86L60.80-2.86L60.80-3.94Q61.97-3.84 62.81-3.84L62.81-3.84L66.28-3.84Q66.42-4.78 66.56-7.03L66.56-7.03Q66.66-8.91 66.61-9.56ZM62.86-8.02L63.61-8.77Q65.02-8.06 66-7.31L66-7.31L65.25-6.47Q63.80-7.64 62.86-8.02L62.86-8.02ZM61.59-6.05L62.39-6.80Q63.38-6.33 64.83-5.25L64.83-5.25L64.03-4.41Q62.81-5.53 61.59-6.05L61.59-6.05ZM66.98-1.45L67.92-2.16Q69.38-1.13 70.92 0.23L70.92 0.23L69.89 0.98Q68.77-0.38 66.98-1.45L66.98-1.45ZM76.45-8.48L77.16-9.28Q77.63-8.95 79.13-7.83L79.13-7.83L78.38-6.94Q77.48-7.88 76.45-8.48L76.45-8.48ZM81.23-9.09L81.23-9.09L83.11-9.09Q84.05-9.14 84.05-9.14L84.05-9.14Q84.05-9.09 84.05-9.05L84.05-9.05Q83.95-8.58 83.95-8.02L83.95-8.02L83.95-7.08Q83.77-6.14 86.02-6.66L86.02-6.66Q85.83-6.14 85.88-5.48L85.88-5.48Q82.73-5.20 83.02-6.42L83.02-6.42L83.02-8.20L81.23-8.20Q81.28-5.91 79.73-4.97L79.73-4.97Q79.31-5.44 78.89-5.63L78.89-5.63Q78.84-5.67 78.84-5.67L78.84-5.67Q80.58-6.28 80.25-9.14L80.25-9.14Q80.72-9.09 81.23-9.09ZM75.80-5.63L76.27-6.56Q77.30-6.05 78.47-5.30L78.47-5.30L77.86-4.31Q77.02-5.02 75.80-5.63L75.80-5.63ZM85.08-4.73L85.08-4.73Q83.81-2.20 82.78-1.17L82.78-1.17Q84.23-0.33 86.34-0.19L86.34-0.19Q86.34-0.19 86.30-0.09L86.30-0.09Q85.88 0.28 85.59 0.89L85.59 0.89Q83.44 0.28 82.13-0.61L82.13-0.61Q80.86 0.33 78.80 1.03L78.80 1.03Q78.52 0.47 78.05 0.14L78.05 0.14Q77.95 0.09 77.95 0.05L77.95 0.05Q79.83-0.19 81.47-1.17L81.47-1.17Q80.58-2.20 79.92-3.47L79.92-3.47L80.44-3.80Q79.31-3.80 79.17-3.75L79.17-3.75L79.17-4.73Q79.41-4.69 80.58-4.69L80.58-4.69L83.53-4.69Q84.42-4.69 85.08-4.73ZM77.48-3.84L77.48-3.84L78.38-3.19Q77.48-0.33 76.78 0.56L76.78 0.56L75.94-0.05Q76.88-1.27 77.48-3.84ZM83.63-3.80L80.86-3.80Q81.28-2.63 82.17-1.73L82.17-1.73Q82.97-2.53 83.63-3.80L83.63-3.80ZM95.16-9.70L95.16-9.70Q95.44-9.61 95.86-9.52L95.86-9.52Q96.47-9.33 96.38-9.28L96.38-9.28Q96.38-9.23 96.23-9.09L96.23-9.09Q95.91-8.72 95.63-8.20L95.63-8.20L99.94-8.20Q101.11-8.20 101.39-8.25L101.39-8.25L101.39-7.27Q101.11-7.31 99.94-7.31L99.94-7.31L95.16-7.31Q94.92-6.89 94.36-6.05L94.36-6.05L98.34-6.05Q99-6.05 99.66-6.09L99.66-6.09Q99.80-6.09 99.80-6.09L99.80-6.09Q99.75-5.58 99.75-4.88L99.75-4.88L99.75 0.28Q99.89 0.89 97.92 1.17L97.92 1.17Q97.88 0.56 97.59 0.19L97.59 0.19Q97.55 0.14 97.55 0.09L97.55 0.09Q98.86 0.19 98.77-0.33L98.77-0.33L98.77-1.27L94.08-1.27L94.08-0.42Q94.08 0.66 94.17 0.94L94.17 0.94Q94.17 0.98 94.17 0.98L94.17 0.98L93.09 0.98Q93.09 0.98 93.09 0.94L93.09 0.94Q93.14 0.66 93.14-0.42L93.14-0.42L93.14-4.31Q93.19-4.31 92.39-3.52L92.39-3.52Q91.73-2.81 91.45-2.53L91.45-2.53Q91.03-2.86 90.56-3.09L90.56-3.09Q90.47-3.14 90.47-3.14L90.47-3.14Q92.91-4.83 94.17-7.31L94.17-7.31L92.34-7.31Q91.27-7.31 90.70-7.27L90.70-7.27L90.70-8.30Q91.13-8.20 92.34-8.20L92.34-8.20L94.55-8.20Q94.92-8.91 95.16-9.70ZM98.77-5.20L94.08-5.20L94.08-4.03L98.77-4.03L98.77-5.20ZM98.77-3.23L94.08-3.23L94.08-2.06L98.77-2.06L98.77-3.23ZM111.89-9.75L111.89-9.75Q113.11-9.75 113.16-9.61L113.16-9.61Q113.16-9.56 113.11-9.42L113.11-9.42Q112.88-8.95 112.88-8.48L112.88-8.48L114.38-8.48Q115.03-8.44 115.92-8.58L115.92-8.58L115.92-7.59Q115.69-7.64 114.38-7.69L114.38-7.69L112.88-7.69L112.88-5.81L114.42-5.81Q115.08-5.77 116.34-5.91L116.34-5.91L116.34-4.92Q116.02-4.97 114.42-5.02L114.42-5.02L110.20-5.02Q109.55-5.02 108.98-4.92L108.98-4.92Q108.84-4.92 108.80-4.92L108.80-4.92L108.80-5.91Q108.80-5.91 108.89-5.91L108.89-5.91Q109.50-5.81 110.20-5.81L110.20-5.81L111.98-5.81L111.98-7.69L110.58-7.69Q109.22-7.64 109.03-7.59L109.03-7.59L109.03-8.58Q109.22-8.53 109.88-8.48L109.88-8.48Q110.44-8.44 110.53-8.48L110.53-8.48L111.98-8.48Q111.94-9.61 111.89-9.75ZM114.23-7.45L114.23-7.45Q114.84-7.13 115.17-7.03L115.17-7.03Q115.17-7.03 115.13-6.94L115.13-6.94Q114.70-6.56 114.23-5.91L114.23-5.91Q113.86-6.14 113.44-6.19L113.44-6.19Q114.05-6.94 114.23-7.45ZM109.73-7.03L110.58-7.36Q110.91-6.75 111.23-6.33L111.23-6.33L110.30-5.91Q110.20-6.33 109.73-7.03L109.73-7.03ZM109.22-4.36L109.22-4.36Q109.45-4.31 110.39-4.27L110.39-4.27L114.09-4.27Q115.36-4.31 115.69-4.36L115.69-4.36Q115.55-3.56 115.59-3.14L115.59-3.14L115.59 0Q115.55 0.47 115.69 1.13L115.69 1.13L114.56 1.13Q114.70 0.75 114.66 0.56L114.66 0.56L110.25 0.56Q110.20 0.66 110.34 1.13L110.34 1.13L109.22 1.13Q109.36 0.33 109.31 0L109.31 0L109.31-3.33Q109.36-3.80 109.22-4.36ZM114.66-3.47L110.25-3.47L110.25-0.19L114.66-0.19L114.66-3.47ZM110.91-2.95L110.91-2.95Q111.14-2.91 112.13-2.86L112.13-2.86L112.88-2.86Q113.72-2.91 113.95-2.95L113.95-2.95Q113.81-2.39 113.86-2.06L113.86-2.06L113.86-1.64Q113.81-1.27 113.95-0.70L113.95-0.70Q113.72-0.75 112.83-0.80L112.83-0.80L112.08-0.80Q111.09-0.75 110.91-0.70L110.91-0.70Q111-1.08 111.05-1.69L111.05-1.69L111.05-1.97Q111-2.63 110.91-2.95ZM113.11-1.45L113.11-2.20L111.80-2.20L111.80-1.45L113.11-1.45ZM108.75-6.80L108.75-5.77Q108.70-5.77 108.61-5.77L108.61-5.77Q108.14-5.86 107.72-5.86L107.72-5.86L107.72-2.20Q107.72-2.20 107.91-2.30L107.91-2.30Q108.42-2.48 108.84-2.67L108.84-2.67L108.84-1.73L105.70-0.52L105.47-1.64Q107.02-1.92 106.83-1.88L106.83-1.88L106.83-5.86Q105.80-5.81 105.61-5.77L105.61-5.77L105.61-6.80Q106.41-6.66 106.83-6.70L106.83-6.70L106.83-8.30Q106.78-9.42 106.73-9.52L106.73-9.52Q107.86-9.56 107.95-9.33L107.95-9.33Q107.95-9.33 107.91-9.23L107.91-9.23Q107.67-8.77 107.72-8.16L107.72-8.16L107.72-6.70Q108.14-6.70 108.61-6.80L108.61-6.80Q108.70-6.80 108.75-6.80L108.75-6.80Z"
+                                                  transform="translate(-0.140625, 9.796875)"></path>
+                                        </g>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+
+                    </svg>
+
+                </div>
+
+            </a>
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/"></a>
+                        </li>
+                    </ul>
+                    <form class="d-flex" role="search" id="search-form">
+                        <input class="form-control me-2" type="search" id="order-id-input" placeholder="订单号/密钥"
+                               aria-label="Search"
+                               value="33dad91e19942d7007750758e8c33bb2" onblur="removeSpaces()">
+                        <button class="btn btn-outline-dark" type="submit" id="search-button">Search</button>
+                    </form>
+                    <div id="error-message" class="text-danger" style="display: none;">订单号不能为空</div>
+                </div>
+            </div>
+        </nav>
+        <br>
+        <h1 class="text-body-emphasis">欢迎使用</h1>
+        <p>搜索所使用的【订单号】，从支付宝app订单详情页面复制&nbsp;&nbsp;点击 <a
+                href="/guide/Copy_Order_Number?title=复制订单号向导">操作向导</a>
+            查看详细说明。
+            
+                <p class="fs-5 col-md-8">公共订阅链接为：https://blue2sea.com/clash/33dad91e19942d7007750758e8c33bb2</p>
+            
+        <p class="fs-5 col-md-8">订阅失效时间：2026-06-27 00:00:00</p>
+
+        <div class="mb-5">
+            <button class="btn btn-primary btn-lg px-4" id="copy-link-button"
+                    data-clipboard-text="https://blue2sea.com/clash/33dad91e19942d7007750758e8c33bb2">复制链接
+            </button>
+
+            
+                <button class="btn btn-primary btn-lg px-4" id="my-subscription-button"
+                >个人订阅
+                </button>
+            
+            <div id="alert-container"
+                 style="position: absolute; top: 8%; left: 50%; transform: translateX(-50%); width: 768px;"></div>
+
+        </div>
+
+
+        <hr class="col-3 col-md-2 mb-5">
+
+        <div class="row g-5">
+            <div class="col-md-6">
+                <h2 class="text-body-emphasis">下载软件</h2>
+                <p>下载对应系统版本的clash软件，导入订阅链接，即可畅享自由的网络世界...</p>
+                <ul class="list-unstyled ps-0">
+                    <li>
+                        <a class="icon-link mb-1"
+                           href="https://blue2sea.com/downloads/clash/clash-verge/Clash.Verge_2.3.1_x64-setup.exe"
+                           rel="noopener" target="_blank">
+                            <svg class="bi" width="16" height="16">
+                                <use xlink:href="#arrow-right-circle"/>
+                            </svg>
+                            Windows版本下载
+                        </a>
+                    </li>
+                    <li>
+                        <a class="icon-link mb-1"
+                           href="https://blue2sea.com/downloads/clash/clash-verge/Clash.Verge_2.3.1_x64.dmg"
+                           rel="noopener" target="_blank">
+                            <svg class="bi" width="16" height="16">
+                                <use xlink:href="#arrow-right-circle"/>
+                            </svg>
+                            苹果Mac版本下载
+                        </a>
+                    </li>
+                    <li>
+                        <a class="icon-link mb-1"
+                           href="https://blue2sea.com/downloads/clash/ClashMetaForAndroid/cmfa-2.11.15-meta-universal-release.apk"
+                           rel="noopener"
+                           target="_blank">
+                            <svg class="bi" width="16" height="16">
+                                <use xlink:href="#arrow-right-circle"/>
+                            </svg>
+                            手机安卓Android版本下载
+                        </a>
+                    </li>
+                    <li>
+                        <a class="icon-link mb-1" href="https://blue2sea.com/downloads/clash/"
+                           rel="noopener" target="_blank">
+                            <svg class="bi" width="16" height="16">
+                                <use xlink:href="#arrow-right-circle"/>
+                            </svg>
+                            更多版本下载
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-md-6">
+                <h2 class="text-body-emphasis">操作向导</h2>
+                <p>这里是一些常见的配置向导，更多高级玩法关注社区《Blue2Sea》</p>
+                <ul class="list-unstyled ps-0">
+                    <li>
+                        <a class="icon-link mb-1"
+                           href="/guide/SetupGuide_Windows_Apple?title=Clash使用向导">
+                            <svg class="bi" width="16" height="16">
+                                <use xlink:href="#arrow-right-circle"/>
+                            </svg>
+                            Windows/苹果版本配置向导
+                        </a>
+                    </li>
+                    <li>
+                        <a class="icon-link mb-1"
+                           href="/guide/Clash_Guide_Android?title=Clash使用向导">
+                            <svg class="bi" width="16" height="16">
+                                <use xlink:href="#arrow-right-circle"/>
+                            </svg>
+                            手机安卓Android配置向导
+                        </a>
+                    </li>
+                    <li>
+                        <a class="icon-link mb-1"
+                           href="/guide/SetupGuide_Apple_IOS?title=Stash使用向导">
+                            <svg class="bi" width="16" height="16">
+                                <use xlink:href="#arrow-right-circle"/>
+                            </svg>
+                            手机IOS版本配置向导
+                        </a>
+                    </li>
+                    <li>
+                        
+                        
+                        
+                        
+                        
+                        
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+
+<script>
+    // 监听表单的提交事件
+    document.getElementById('search-form').addEventListener('submit', function (event) {
+        // 阻止默认的表单提交行为
+        event.preventDefault();
+
+        // 获取输入框的值作为 order_id
+        var orderId = document.getElementById('order-id-input').value;
+
+        // 如果订单号为空，显示错误提示
+        if (orderId.trim() === '') {
+            document.getElementById('error-message').style.display = 'block';
+            return;
+        }
+        const lastPart = orderId.slice(orderId.lastIndexOf("/") + 1);
+        // 构造跳转路径
+        var url = '/order/querySubscriptionLink/' + lastPart;
+
+        window.open('', '_self', '');
+        window.close();
+        window.location.replace(url);
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var clipboard = new ClipboardJS('#copy-link-button');
+
+        clipboard.on('success', function (e) {
+            // 创建成功提示信息
+            var alertElement = document.createElement('div');
+            alertElement.classList.add('alert', 'alert-success', 'alert-dismissible', 'position-fixed', 'top-50', 'start-50', 'translate-middle-x');
+            alertElement.innerHTML = `
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>复制成功！</strong>链接已复制到剪贴板。`;
+
+            // 将提示信息添加到容器中
+            var alertContainer = document.getElementById('alert-container');
+            alertContainer.appendChild(alertElement);
+
+            // 清除选择
+            e.clearSelection();
+        });
+
+        clipboard.on('error', function (e) {
+            // 创建失败提示信息
+            var alertElement = document.createElement('div');
+            alertElement.classList.add('alert', 'alert-danger', 'alert-dismissible', 'position-fixed', 'top-0', 'start-50', 'translate-middle-x');
+            alertElement.innerHTML = `
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>复制失败！</strong> 复制链接到剪贴板时出现错误。
+        `;
+
+            // 将提示信息添加到容器中
+            var alertContainer = document.getElementById('alert-container');
+            alertContainer.appendChild(alertElement);
+        });
+    });
+
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Get CSRF token from cookie
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        // Get CSRF token from the meta tag
+        const csrftoken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        console.log('csrftoken=' + csrftoken)
+        $('#my-subscription-button').click(function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Make an AJAX request to the createPersonalSubscription path
+            $.ajax({
+                url: '/order/createPersonalSubscription', // Replace with your actual URL
+                method: 'POST', // Use POST for creating new data
+                headers: {
+                    'X-CSRFToken': csrftoken
+                },
+                success: function (response) {
+                    // Handle successful response from the server
+                    console.log('Personal subscription created successfully!');
+                    // You can also update UI elements or perform other actions based on the response
+                    if (response.redirect_url) {
+                        // Hide the current content
+                        
+                        // Redirect to the new URL
+                        
+                        window.open('', '_self', '');
+                        window.close();
+                        window.location.replace(response.redirect_url);
+                    }
+                },
+                error: function (error) {
+                    console.error('Error creating personal subscription:', error);
+                    // Handle error response from the server
+                }
+            });
+        });
+    });
+</script>
+<script>
+    window.onload = function () {
+        var navbarToggleBtn = document.querySelector(".navbar-toggler");
+        if (navbarToggleBtn) {
+            navbarToggleBtn.click(); // 触发点击事件
+        }
+        var input = document.getElementById("order-id-input");
+        input.focus(); // 获取焦点
+
+        setTimeout(function () {
+            input.blur(); // 移除焦点
+            input.focus(); // 获取焦点
+        }, 500); // 2000毫秒后失去焦点
+
+
+    };
+
+    function removeSpaces() {
+        var input = document.getElementById("order-id-input");
+        // 使用正则表达式检查输入框的值是否只包含空白字符
+        if (/^\s*$/.test(input.value)) {
+            input.value = ""; // 清空输入框
+        }
+    }
+</script>
+<!-- Control Modal with JavaScript -->
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const modalElement = document.getElementById('modalSheet');
+        const openModalBtn = document.getElementById('extend-subscription-button');
+        const extendSubscriptionBtn = document.getElementById('extendSubscriptionBtn');
+        const errorMessage = document.getElementById('errorMessage');
+        const modal = new bootstrap.Modal(modalElement);
+
+        openModalBtn.addEventListener('click', () => {
+            modal.show();
+        });
+        extendSubscriptionBtn.addEventListener('click', () => {
+            // 获取CSRF令牌的值
+            const csrfToken = getCookie('csrftoken');
+            //加时
+            // 获取输入框的值
+            const codeInput = document.getElementById('codeInput').value.trim();
+            // 判断输入是否为空
+            if (codeInput === '') {
+                errorMessage.textContent = '卡号不能为空！'; // 显示错误消息
+                errorMessage.style.display = 'block'; // 显示错误消息区域
+                return; // 结束函数执行
+            }
+
+            // 如果不为空，则清空错误消息
+            errorMessage.textContent = '';
+            errorMessage.style.display = 'none';
+            var token = "33dad91e19942d7007750758e8c33bb2"
+            const formData = new FormData();
+            formData.append('token', token);
+            formData.append('code', codeInput);
+
+            // 发起POST请求
+            fetch('/extendSubscription/', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': csrfToken  // 将CSRF令牌添加到请求头部
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // 处理成功响应
+                    console.log('Extend subscription successful', data);
+                    // 可以根据需要执行其他操作，比如更新界面或者关闭模态框等
+                    console.log("data", data)
+                    if (data['success'] === false) {
+                        errorMessage.textContent = data['message']; // 显示错误消息
+                        errorMessage.style.display = 'block'; // 显示错误消息区域
+                    } else {
+                        modal.hide();
+                        // 创建成功提示信息
+                        var alertElement = document.createElement('div');
+                        alertElement.classList.add('alert', 'alert-success', 'alert-dismissible', 'position-fixed', 'top-50', 'start-50', 'translate-middle-x');
+                        alertElement.innerHTML = `
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>加时成功！</strong>`;
+
+                        // 将提示信息添加到容器中
+                        var alertContainer = document.getElementById('alert-container');
+                        alertContainer.appendChild(alertElement);
+                        //2秒后刷新新当前页面
+                        setTimeout(function () {
+                            window.location.reload(); // 刷新当前页面
+                        }, 2000); // 2000 毫秒 = 2 秒
+                    }
+                })
+                .catch(error => {
+                    // 处理错误情况
+                    console.error('Error extending subscription:', error);
+                    // 根据需要显示错误信息或者执行其他错误处理逻辑
+                });
+
+
+            // 获取cookie中的CSRF令牌值
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        // 判断cookie名称是否匹配
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+
+        });
+
+        modalElement.addEventListener('hidden.bs.modal', () => {
+            modalElement.classList.add('d-none');
+        });
+
+        modalElement.addEventListener('show.bs.modal', () => {
+            modalElement.classList.remove('d-none');
+        });
+    });
+</script>
+
+</body>
+
+</html>
