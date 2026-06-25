@@ -1,0 +1,86 @@
+name: Update test
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fetch latest Clash subscription into test
+        run: |
+          python - <<'PY'
+          import re
+          import sys
+          import urllib.request
+          from html import unescape
+          from pathlib import Path
+
+          QUERY_PAGE_URL = "https://blue2sea.com/order/querySubscriptionLink/%20"
+          OUTPUT_FILE = Path("test")
+
+          HEADERS = {
+              "User-Agent": (
+                  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                  "AppleWebKit/537.36 (KHTML, like Gecko) "
+                  "Chrome/125.0 Safari/537.36"
+              ),
+              "Accept": "*/*",
+          }
+
+          def fetch_bytes(url):
+              request = urllib.request.Request(url, headers=HEADERS)
+              with urllib.request.urlopen(request, timeout=30) as response:
+                  return response.read(), response.headers.get_content_charset() or "utf-8"
+
+          def fetch_text(url):
+              data, charset = fetch_bytes(url)
+              return data.decode(charset, errors="replace")
+
+          page_text = unescape(fetch_text(QUERY_PAGE_URL))
+          match = re.search(
+              r"公共订阅链接为[：:]\s*(https?://[^\s<\"'，。]+)",
+              page_text,
+              flags=re.IGNORECASE,
+          )
+
+          if not match:
+              print("没有找到“公共订阅链接为：”后面的订阅地址", file=sys.stderr)
+              sys.exit(1)
+
+          subscription_url = match.group(1).strip()
+          subscription_data, _ = fetch_bytes(subscription_url)
+
+          if not subscription_data.strip():
+              print("订阅地址返回内容为空", file=sys.stderr)
+              sys.exit(1)
+
+          text_preview = subscription_data[:500].decode("utf-8", errors="ignore")
+          if subscription_url in text_preview and len(subscription_data) < 300:
+              print("抓取到的仍然像是链接文本，不是真实 Clash 订阅内容", file=sys.stderr)
+              sys.exit(1)
+
+          OUTPUT_FILE.write_bytes(subscription_data.rstrip() + b"\n")
+          print(f"已更新 {OUTPUT_FILE}，来源：{subscription_url}")
+          PY
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add test
+          if git diff --cached --quiet; then
+            echo "test 没有变化，不需要提交。"
+          else
+            git commit -m "Update test subscription"
+            git push
+          fi
