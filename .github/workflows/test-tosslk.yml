@@ -1,0 +1,21 @@
+name: Test tosslk access
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test direct access
+        run: |
+          curl -s -o /dev/null -w "HTTP Status: %{http_code}\n" \
+            -H "User-Agent: clash-verge/v2.5.1" \
+            --max-time 15 \
+            "https://d4ccdV.tosslk.xyz/29e615a22efbca93b2c384c00b368402" || echo "Direct curl failed"
+
+      - name: Test with retry
+        run: |
+          curl -v -H "User-Agent: clash-verge/v2.5.1" \
+            --max-time 15 \
+            "https://d4ccdV.tosslk.xyz/29e615a22efbca93b2c384c00b368402" 2>&1 | head -50
