@@ -15,7 +15,7 @@ proxy-providers:
     filter: ''
     health-check:
       enable: true
-      url: http://gstatic.com
+      url: http://www.gstatic.com/generate_204
       interval: 120
   ALL-NET:
     type: http
@@ -25,7 +25,7 @@ proxy-providers:
     filter: ''
     health-check:
       enable: true
-      url: http://gstatic.com
+      url: http://www.gstatic.com/generate_204
       interval: 120
 
 
@@ -33,7 +33,7 @@ proxy-groups:
 
   - name: 天边外丨blue2sea.com
     type: select
-    url: http://gstatic.com
+    url: http://www.gstatic.com/generate_204
     interval: 60
     proxies:
       - 自动选择(全部节点)
@@ -43,21 +43,21 @@ proxy-groups:
 
   - name: 自动选择(全部节点)
     type: url-test
-    url: http://gstatic.com
+    url: http://www.gstatic.com/generate_204
     interval: 30
     use:
         - ALL-NET
 
   - name: 自动选择(不含香港&台湾)
     type: url-test
-    url: http://gstatic.com
+    url: http://www.gstatic.com/generate_204
     interval: 30
     use:
       - AiAGENT-NET
 
   - name: AiAgent
     type: fallback
-    url: http://gstatic.com
+    url: http://www.gstatic.com/generate_204
     interval: 30
     proxies:
       - 天边外丨blue2sea.com
@@ -65,7 +65,7 @@ proxy-groups:
 
   - name: Out
     type: fallback
-    url: http://gstatic.com
+    url: http://www.gstatic.com/generate_204
     interval: 30
     proxies:
       - 天边外丨blue2sea.com
@@ -73,13 +73,13 @@ proxy-groups:
 
   - name: PROXY
     type: fallback
-    url: http://gstatic.com
+    url: http://www.gstatic.com/generate_204
     interval: 30
     proxies:
       - Out
   - name: 🔒 纯净独享丨流媒体解锁
     type: url-test
-    url: http://gstatic.com
+    url: http://www.gstatic.com/generate_204
     interval: 30
     use:
       - ALL-NET
@@ -87,7 +87,7 @@ proxy-groups:
 
   - name: 天边外丨优选
     type: url-test
-    url: http://gstatic.com
+    url: http://www.gstatic.com/generate_204
     interval: 10
     use:
       - ALL-NET
@@ -95,7 +95,7 @@ proxy-groups:
 
   - name: 🎬 超清多媒体丨大数据加速
     type: fallback
-    url: http://gstatic.com
+    url: http://www.gstatic.com/generate_204
     interval: 15
     proxies:
       - 🔒 纯净独享丨流媒体解锁
@@ -103,28 +103,28 @@ proxy-groups:
 
   - name: Youtube
     type: fallback
-    url: http://gstatic.com
+    url: http://www.gstatic.com/generate_204
     interval: 15
     proxies:
       - 🎬 超清多媒体丨大数据加速
 
   - name: Netflix
     type: fallback
-    url: http://gstatic.com
+    url: http://www.gstatic.com/generate_204
     interval: 15
     proxies:
       - 🎬 超清多媒体丨大数据加速
 
   - name: Telegram
     type: fallback
-    url: http://gstatic.com
+    url: http://www.gstatic.com/generate_204
     interval: 30
     proxies:
       - Out
 
   - name: Apple
     type: fallback
-    url: http://gstatic.com
+    url: http://www.gstatic.com/generate_204
     interval: 30
     proxies:
       - DIR
