@@ -1,10 +1,8 @@
 name: Fetch Clash Subscribe Link
 
 on:
-  # 每 6 小时执行一次
   schedule:
     - cron: '0 */6 * * *'
-  # 允许手动触发
   workflow_dispatch:
 
 jobs:
@@ -16,24 +14,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Fetch tolinkshare2 page and extract subscribe link
         id: extract
         run: |
           curl -sL "https://github.com/tolinkshare2/tolinkshare2.github.io" -o page.html
-          
-          # 提取 tosslk 订阅链接，取第一个
           SUBSCRIBE_URL=$(grep -oP 'https://[a-zA-Z0-9]+\.tosslk\.xyz/[a-zA-Z0-9]+' page.html | head -1)
-          
-          echo "Extracted URL: $SUBSCRIBE_URL"
           echo "subscribe_url=$SUBSCRIBE_URL" >> $GITHUB_OUTPUT
-          
-          if [ -z "$SUBSCRIBE_URL" ]; then
-            echo "ERROR: Could not extract subscribe URL"
-            exit 1
-          fi
+          if [ -z "$SUBSCRIBE_URL" ]; then exit 1; fi
 
       - name: Download subscribe content
         id: download
@@ -41,42 +29,37 @@ jobs:
           SUBSCRIBE_URL="${{ steps.extract.outputs.subscribe_url }}"
           echo "Downloading from: $SUBSCRIBE_URL"
           
-          # 下载订阅内容，模拟 Clash 客户端
+          # 模拟 clash-verge v2.5.2
           curl -sL \
-            -H "User-Agent: ClashForWindows/0.20.39" \
-            -H "Accept: */*" \
+            -A "clash-verge/v2.5.2" \
+            -H "Accept: application/yaml, text/yaml, */*" \
             --max-time 30 \
             "$SUBSCRIBE_URL" -o subscribe_content.yaml
           
-          # 验证内容
-          if [ ! -s subscribe_content.yaml ]; then
-            echo "ERROR: Downloaded file is empty"
+          # 检查是否被返回了提示文本
+          if grep -q "节点加速器\|已停止维护\|官方网站\|更换下载" subscribe_content.yaml; then
+            echo "ERROR: Got maintenance notice instead of real nodes"
+            cat subscribe_content.yaml
             exit 1
           fi
           
-          SIZE=$(wc -c < subscribe_content.yaml)
-          echo "Content size: $SIZE bytes"
+          if [ ! -s subscribe_content.yaml ]; then exit 1; fi
+          echo "Size: $(wc -c < subscribe_content.yaml) bytes"
 
       - name: Update tosslk file
         run: |
           mkdir -p tosslk
           cp subscribe_content.yaml tosslk/tosslk
 
-      - name: Commit and push changes
+      - name: Commit and push
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
-          
           git add tosslk/
-          
-          # 只在有变更时提交
           if git diff --cached --quiet; then
-            echo "No changes detected, skipping commit"
+            echo "No changes"
             exit 0
           fi
-          
           git commit -m "Update Clash subscribe [$(date '+%Y-%m-%d %H:%M:%S')]
-          
-          Source: ${{ steps.extract.outputs.subscribe_url }}"
-          
+Source: ${{ steps.extract.outputs.subscribe_url }}"
           git push
