@@ -29,14 +29,12 @@ jobs:
           SUBSCRIBE_URL="${{ steps.extract.outputs.subscribe_url }}"
           echo "Downloading from: $SUBSCRIBE_URL"
           
-          # 模拟 clash-verge v2.5.2
           curl -sL \
             -A "clash-verge/v2.5.2" \
             -H "Accept: application/yaml, text/yaml, */*" \
             --max-time 30 \
             "$SUBSCRIBE_URL" -o subscribe_content.yaml
           
-          # 检查是否被返回了提示文本
           if grep -q "节点加速器\|已停止维护\|官方网站\|更换下载" subscribe_content.yaml; then
             echo "ERROR: Got maintenance notice instead of real nodes"
             cat subscribe_content.yaml
@@ -60,6 +58,5 @@ jobs:
             echo "No changes"
             exit 0
           fi
-          git commit -m "Update Clash subscribe [$(date '+%Y-%m-%d %H:%M:%S')]
-Source: ${{ steps.extract.outputs.subscribe_url }}"
+          git commit -m "Update Clash subscribe [$(date '+%Y-%m-%d %H:%M:%S')] - Source: ${{ steps.extract.outputs.subscribe_url }}"
           git push
