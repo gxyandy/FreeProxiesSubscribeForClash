@@ -2,7 +2,7 @@ name: Update test
 
 on:
   schedule:
-    - cron: "*/30 * * * *"
+    - cron: '*/10 8-18 * * *'
   workflow_dispatch:
 
 permissions:
