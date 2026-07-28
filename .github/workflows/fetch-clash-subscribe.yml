@@ -2,11 +2,11 @@ name: Fetch Clash Subscribe Link
 
 on:
   schedule:
-    - cron: '0 8-20 * * *'
+    - cron: '*/10 8-18 * * *'   # 每5分钟检查一次
   workflow_dispatch:
 
 jobs:
-  fetch-and-update:
+  check-and-fetch:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -15,7 +15,45 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Check if README.md has new commit
+        id: check
+        run: |
+          # 通过 GitHub API 获取对方 README.md 的最新 commit SHA
+          LATEST_SHA=$(curl -sL \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "User-Agent: GitHub-Actions-Bot" \
+            "https://api.github.com/repos/tolinkshare2/tolinkshare2.github.io/commits?path=README.md&page=1&per_page=1" | \
+            jq -r '.[0].sha // empty')
+          
+          if [ -z "$LATEST_SHA" ] || [ "$LATEST_SHA" = "null" ]; then
+            echo "ERROR: Failed to fetch latest commit SHA"
+            exit 1
+          fi
+          
+          echo "latest_sha=$LATEST_SHA" >> $GITHUB_OUTPUT
+          echo "Latest README.md commit: $LATEST_SHA"
+          
+          # 读取本地记录的上一次 SHA
+          if [ -f .last_commit_sha ]; then
+            LAST_SHA=$(cat .last_commit_sha)
+            echo "last_sha=$LAST_SHA" >> $GITHUB_OUTPUT
+            echo "Last recorded SHA: $LAST_SHA"
+            
+            if [ "$LAST_SHA" = "$LATEST_SHA" ]; then
+              echo "changed=false" >> $GITHUB_OUTPUT
+              echo "No change detected. Skipping fetch."
+            else
+              echo "changed=true" >> $GITHUB_OUTPUT
+              echo "Change detected! Will proceed to fetch."
+            fi
+          else
+            echo "last_sha=" >> $GITHUB_OUTPUT
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "First run or no record found. Will proceed to fetch."
+          fi
+
       - name: Fetch tolinkshare2 page and extract subscribe link
+        if: steps.check.outputs.changed == 'true'
         id: extract
         run: |
           curl -sL "https://github.com/tolinkshare2/tolinkshare2.github.io" -o page.html
@@ -24,6 +62,7 @@ jobs:
           if [ -z "$SUBSCRIBE_URL" ]; then exit 1; fi
 
       - name: Download subscribe content
+        if: steps.check.outputs.changed == 'true'
         id: download
         run: |
           SUBSCRIBE_URL="${{ steps.extract.outputs.subscribe_url }}"
@@ -44,16 +83,20 @@ jobs:
           if [ ! -s subscribe_content.yaml ]; then exit 1; fi
           echo "Size: $(wc -c < subscribe_content.yaml) bytes"
 
-      - name: Update tosslk file
+      - name: Update tosslk file and record new SHA
+        if: steps.check.outputs.changed == 'true'
         run: |
           mkdir -p tosslk
           cp subscribe_content.yaml tosslk/tosslk
+          # 只有在成功获取内容后才更新 SHA 记录
+          echo "${{ steps.check.outputs.latest_sha }}" > .last_commit_sha
 
       - name: Commit and push
+        if: steps.check.outputs.changed == 'true'
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
-          git add tosslk/
+          git add tosslk/ .last_commit_sha
           if git diff --cached --quiet; then
             echo "No changes"
             exit 0
