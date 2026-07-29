@@ -2,7 +2,7 @@ name: Fetch Clash Subscribe Link
 
 on:
   schedule:
-    - cron: '*/10 0-10 * * *'   # UTC 0:00-10:00 = 北京时间 8:00-18:00
+    - cron: '*/5 * * * *'   
   workflow_dispatch:
 
 jobs:
