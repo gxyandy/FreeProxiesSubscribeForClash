@@ -2,7 +2,7 @@ name: Fetch Clash Subscribe Link
 
 on:
   schedule:
-    - cron: '*/5 * * * *'   
+    - cron: '*/5 * * * *'
   workflow_dispatch:
 
 jobs:
