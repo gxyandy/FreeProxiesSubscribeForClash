@@ -2,7 +2,7 @@ name: Fetch Clash Subscribe Link
 
 on:
   schedule:
-    - cron: '0 * * * *'
+    - cron: '0 * * * *'   # 每小时执行一次（UTC整点）
   workflow_dispatch:
 
 jobs:
@@ -15,91 +15,101 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Check if README.md has new commit
-        id: check
+      - name: Loop check every 5 minutes for 1 hour
         run: |
-          # 通过 GitHub API 获取对方 README.md 的最新 commit SHA
-          LATEST_SHA=$(curl -sL \
-            -H "Accept: application/vnd.github.v3+json" \
-            -H "User-Agent: GitHub-Actions-Bot" \
-            "https://api.github.com/repos/tolinkshare2/tolinkshare2.github.io/commits?path=README.md&page=1&per_page=1" | \
-            jq -r '.[0].sha // empty')
-          
-          if [ -z "$LATEST_SHA" ] || [ "$LATEST_SHA" = "null" ]; then
-            echo "ERROR: Failed to fetch latest commit SHA"
-            exit 1
-          fi
-          
-          echo "latest_sha=$LATEST_SHA" >> $GITHUB_OUTPUT
-          echo "Latest README.md commit: $LATEST_SHA"
-          
-          # 读取本地记录的上一次 SHA
-          if [ -f .last_commit_sha ]; then
-            LAST_SHA=$(cat .last_commit_sha)
-            echo "last_sha=$LAST_SHA" >> $GITHUB_OUTPUT
-            echo "Last recorded SHA: $LAST_SHA"
+          # 每小时运行12次检查（每5分钟一次）
+          for i in {1..12}; do
+            echo "=== Check #$i at $(date '+%Y-%m-%d %H:%M:%S') ==="
             
-            if [ "$LAST_SHA" = "$LATEST_SHA" ]; then
-              echo "changed=false" >> $GITHUB_OUTPUT
-              echo "No change detected. Skipping fetch."
-            else
-              echo "changed=true" >> $GITHUB_OUTPUT
-              echo "Change detected! Will proceed to fetch."
+            # 获取对方 README.md 最新 commit SHA
+            LATEST_SHA=$(curl -sL \
+              -H "Accept: application/vnd.github.v3+json" \
+              -H "User-Agent: GitHub-Actions-Bot" \
+              "https://api.github.com/repos/tolinkshare2/tolinkshare2.github.io/commits?path=README.md&page=1&per_page=1" | \
+              jq -r '.[0].sha // empty')
+            
+            if [ -z "$LATEST_SHA" ] || [ "$LATEST_SHA" = "null" ]; then
+              echo "ERROR: Failed to fetch SHA, retry next cycle"
+              sleep 300
+              continue
             fi
-          else
-            echo "last_sha=" >> $GITHUB_OUTPUT
-            echo "changed=true" >> $GITHUB_OUTPUT
-            echo "First run or no record found. Will proceed to fetch."
-          fi
-
-      - name: Fetch tolinkshare2 page and extract subscribe link
-        if: steps.check.outputs.changed == 'true'
-        id: extract
-        run: |
-          curl -sL "https://github.com/tolinkshare2/tolinkshare2.github.io" -o page.html
-          SUBSCRIBE_URL=$(grep -oP 'https://[a-zA-Z0-9]+\.tosslk\.xyz/[a-zA-Z0-9]+' page.html | head -1)
-          echo "subscribe_url=$SUBSCRIBE_URL" >> $GITHUB_OUTPUT
-          if [ -z "$SUBSCRIBE_URL" ]; then exit 1; fi
-
-      - name: Download subscribe content
-        if: steps.check.outputs.changed == 'true'
-        id: download
-        run: |
-          SUBSCRIBE_URL="${{ steps.extract.outputs.subscribe_url }}"
-          echo "Downloading from: $SUBSCRIBE_URL"
+            
+            echo "Latest SHA: $LATEST_SHA"
+            
+            # 读取本地记录的上一次 SHA
+            if [ -f .last_commit_sha ]; then
+              LAST_SHA=$(cat .last_commit_sha)
+              echo "Last SHA: $LAST_SHA"
+            else
+              LAST_SHA=""
+              echo "No previous SHA found"
+            fi
+            
+            # 对比 SHA
+            if [ "$LAST_SHA" = "$LATEST_SHA" ]; then
+              echo "No change detected."
+            else
+              echo "Change detected! Fetching new subscribe link..."
+              
+              # 提取订阅链接
+              curl -sL "https://github.com/tolinkshare2/tolinkshare2.github.io" -o page.html
+              SUBSCRIBE_URL=$(grep -oP 'https://[a-zA-Z0-9]+\.tosslk\.xyz/[a-zA-Z0-9]+' page.html | head -1)
+              
+              if [ -z "$SUBSCRIBE_URL" ]; then
+                echo "ERROR: Subscribe URL not found"
+                sleep 300
+                continue
+              fi
+              
+              echo "Subscribe URL: $SUBSCRIBE_URL"
+              
+              # 下载订阅内容
+              curl -sL \
+                -A "clash-verge/v2.5.2" \
+                -H "Accept: application/yaml, text/yaml, */*" \
+                --max-time 30 \
+                "$SUBSCRIBE_URL" -o subscribe_content.yaml
+              
+              # 检查维护提示
+              if grep -q "节点加速器\|已停止维护\|官方网站\|更换下载" subscribe_content.yaml; then
+                echo "ERROR: Got maintenance notice"
+                cat subscribe_content.yaml
+                sleep 300
+                continue
+              fi
+              
+              if [ ! -s subscribe_content.yaml ]; then
+                echo "ERROR: Empty content"
+                sleep 300
+                continue
+              fi
+              
+              echo "Content size: $(wc -c < subscribe_content.yaml) bytes"
+              
+              # 更新文件
+              mkdir -p tosslk
+              cp subscribe_content.yaml tosslk/tosslk
+              echo "$LATEST_SHA" > .last_commit_sha
+              
+              # 提交推送
+              git config user.name "GitHub Actions Bot"
+              git config user.email "actions@github.com"
+              git add tosslk/ .last_commit_sha
+              
+              if ! git diff --cached --quiet; then
+                git commit -m "Update Clash subscribe [$(date '+%Y-%m-%d %H:%M:%S')] - Source: $SUBSCRIBE_URL"
+                git push
+                echo "Pushed successfully!"
+              else
+                echo "No file changes to commit"
+              fi
+            fi
+            
+            # 最后一次不等待
+            if [ $i -lt 12 ]; then
+              echo "Waiting 5 minutes..."
+              sleep 300
+            fi
+          done
           
-          curl -sL \
-            -A "clash-verge/v2.5.2" \
-            -H "Accept: application/yaml, text/yaml, */*" \
-            --max-time 30 \
-            "$SUBSCRIBE_URL" -o subscribe_content.yaml
-          
-          if grep -q "节点加速器\|已停止维护\|官方网站\|更换下载" subscribe_content.yaml; then
-            echo "ERROR: Got maintenance notice instead of real nodes"
-            cat subscribe_content.yaml
-            exit 1
-          fi
-          
-          if [ ! -s subscribe_content.yaml ]; then exit 1; fi
-          echo "Size: $(wc -c < subscribe_content.yaml) bytes"
-
-      - name: Update tosslk file and record new SHA
-        if: steps.check.outputs.changed == 'true'
-        run: |
-          mkdir -p tosslk
-          cp subscribe_content.yaml tosslk/tosslk
-          # 只有在成功获取内容后才更新 SHA 记录
-          echo "${{ steps.check.outputs.latest_sha }}" > .last_commit_sha
-
-      - name: Commit and push
-        if: steps.check.outputs.changed == 'true'
-        run: |
-          git config user.name "GitHub Actions Bot"
-          git config user.email "actions@github.com"
-          git add tosslk/ .last_commit_sha
-          if git diff --cached --quiet; then
-            echo "No changes"
-            exit 0
-          fi
-          git commit -m "Update Clash subscribe [$(date '+%Y-%m-%d %H:%M:%S')] - Source: ${{ steps.extract.outputs.subscribe_url }}"
-          git push
+          echo "=== 1 hour check completed ==="
