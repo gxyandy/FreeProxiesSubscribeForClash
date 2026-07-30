@@ -2,12 +2,20 @@ name: Fetch Clash Subscribe Link
 
 on:
   schedule:
-    - cron: '0 * * * *'   # 每小时执行一次（UTC整点）
+    # 每 6 小时触发一次，选第 23 分钟以避开整点高峰
+    - cron: '23 */5 * * *'
   workflow_dispatch:
+
+# 并发控制：同一 workflow 实例排队执行，避免多实例同时 git push 冲突
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
 
 jobs:
   check-and-fetch:
     runs-on: ubuntu-latest
+    # GitHub Actions 单 Job 最大允许 6 小时（360 分钟），到点自动终止
+    timeout-minutes: 360
     permissions:
       contents: write
     
@@ -15,11 +23,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Loop check every 5 minutes for 1 hour
+      - name: Long-running monitor loop (up to 6h)
         run: |
-          # 每小时运行12次检查（每5分钟一次）
-          for i in {1..12}; do
-            echo "=== Check #$i at $(date '+%Y-%m-%d %H:%M:%S') ==="
+          counter=1
+          while true; do
+            echo "=== Check #$counter at $(date '+%Y-%m-%d %H:%M:%S') ==="
             
             # 获取对方 README.md 最新 commit SHA
             LATEST_SHA=$(curl -sL \
@@ -29,8 +37,9 @@ jobs:
               jq -r '.[0].sha // empty')
             
             if [ -z "$LATEST_SHA" ] || [ "$LATEST_SHA" = "null" ]; then
-              echo "ERROR: Failed to fetch SHA, retry next cycle"
+              echo "ERROR: Failed to fetch SHA, will retry in 5 min"
               sleep 300
+              counter=$((counter + 1))
               continue
             fi
             
@@ -56,8 +65,9 @@ jobs:
               SUBSCRIBE_URL=$(grep -oP 'https://[a-zA-Z0-9]+\.tosslk\.xyz/[a-zA-Z0-9]+' page.html | head -1)
               
               if [ -z "$SUBSCRIBE_URL" ]; then
-                echo "ERROR: Subscribe URL not found"
+                echo "ERROR: Subscribe URL not found, will retry in 5 min"
                 sleep 300
+                counter=$((counter + 1))
                 continue
               fi
               
@@ -72,15 +82,17 @@ jobs:
               
               # 检查维护提示
               if grep -q "节点加速器\|已停止维护\|官方网站\|更换下载" subscribe_content.yaml; then
-                echo "ERROR: Got maintenance notice"
+                echo "ERROR: Got maintenance notice, will retry in 5 min"
                 cat subscribe_content.yaml
                 sleep 300
+                counter=$((counter + 1))
                 continue
               fi
               
               if [ ! -s subscribe_content.yaml ]; then
-                echo "ERROR: Empty content"
+                echo "ERROR: Empty content, will retry in 5 min"
                 sleep 300
+                counter=$((counter + 1))
                 continue
               fi
               
@@ -105,11 +117,9 @@ jobs:
               fi
             fi
             
-            # 最后一次不等待
-            if [ $i -lt 12 ]; then
-              echo "Waiting 5 minutes..."
-              sleep 300
-            fi
+            echo "Waiting 5 minutes before next check..."
+            sleep 300
+            counter=$((counter + 1))
           done
           
-          echo "=== 1 hour check completed ==="
+          echo "=== Job reached 6h timeout or was stopped ==="
