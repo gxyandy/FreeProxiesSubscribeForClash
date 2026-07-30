@@ -2,19 +2,19 @@ name: Fetch Clash Subscribe Link
 
 on:
   schedule:
-    # 每 6 小时触发一次，选第 23 分钟以避开整点高峰
+    # 每 5 小时触发一次，第 23 分钟避开整点高峰
     - cron: '23 */5 * * *'
   workflow_dispatch:
 
-# 并发控制：同一 workflow 实例排队执行，避免多实例同时 git push 冲突
+# ===== 关键修复：并发控制 =====
+# 同一分支上，新实例启动时自动取消正在运行的旧实例
 concurrency:
-  group: ${{ github.workflow }}
-  cancel-in-progress: false
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   check-and-fetch:
     runs-on: ubuntu-latest
-    # GitHub Actions 单 Job 最大允许 6 小时（360 分钟），到点自动终止
     timeout-minutes: 360
     permissions:
       contents: write
@@ -25,6 +25,10 @@ jobs:
 
       - name: Long-running monitor loop (up to 6h)
         run: |
+          # ===== 关键修复：捕获 GitHub 的取消信号 (SIGTERM) =====
+          # 当新实例启动导致本实例被取消时，立即退出循环，不要继续 sleep 或 push
+          trap 'echo ">>> Workflow cancelled by newer run, exiting gracefully..."; exit 0' SIGTERM SIGINT
+          
           counter=1
           while true; do
             echo "=== Check #$counter at $(date '+%Y-%m-%d %H:%M:%S') ==="
@@ -110,6 +114,10 @@ jobs:
               
               if ! git diff --cached --quiet; then
                 git commit -m "Update Clash subscribe [$(date '+%Y-%m-%d %H:%M:%S')] - Source: $SUBSCRIBE_URL"
+                
+                # ===== 关键修复：push 前先拉取最新代码，防止冲突 =====
+                git pull --rebase origin main || true
+                
                 git push
                 echo "Pushed successfully!"
               else
