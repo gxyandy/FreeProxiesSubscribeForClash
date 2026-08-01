@@ -9,8 +9,8 @@ http-opts:
 proxy-providers:
   AiAGENT-NET:
     type: http
-    path: ./ProxySet/dtqy/ai_agent_net_ffb203998aac40c73150fb1b7b53462f.yaml
-    url: "http://blue2sea.com/clash/proxies/aiAgent/6d6161250cbc1b78465eff4f2d9ecc7f?ua=clash-verge/v2.5.1"
+    path: ./ProxySet/dtqy/ai_agent_net_12a3826b6142ff3b67827a6328b6bb46.yaml
+    url: "http://blue2sea.com/clash/proxies/aiAgent/9b1ebd5fc550e2858f827e38c0e2e45c?ua=clash-verge/v2.5.1"
     interval: 300
     filter: ''
     health-check:
@@ -19,8 +19,8 @@ proxy-providers:
       interval: 120
   ALL-NET:
     type: http
-    path: ./ProxySet/dtqy/dt_net_ffb203998aac40c73150fb1b7b53462f.yaml
-    url: "http://blue2sea.com/clash/proxies/6d6161250cbc1b78465eff4f2d9ecc7f?ua=clash-verge/v2.5.1"
+    path: ./ProxySet/dtqy/dt_net_12a3826b6142ff3b67827a6328b6bb46.yaml
+    url: "http://blue2sea.com/clash/proxies/9b1ebd5fc550e2858f827e38c0e2e45c?ua=clash-verge/v2.5.1"
     interval: 300
     filter: ''
     health-check:
