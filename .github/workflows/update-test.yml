@@ -54,7 +54,7 @@ jobs:
           page_text = unescape(fetch_text(QUERY_PAGE_URL, PAGE_HEADERS))
 
           match = re.search(
-              r"公共订阅链接[：:]\s*(https?://[^\s<\"'，。]+)",
+              r'data-clipboard-text="([^"]+)"',
               page_text,
               flags=re.IGNORECASE,
           )
