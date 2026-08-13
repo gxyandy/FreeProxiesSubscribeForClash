@@ -9,8 +9,8 @@ http-opts:
 proxy-providers:
   AiAGENT-NET:
     type: http
-    path: ./ProxySet/dtqy/ai_agent_net_e6d816a33e0c596fc8e7b2add3e4615d.yaml
-    url: "http://blue2sea.com/clash/proxies/aiAgent/a49daf160cc2a3917d4c530a08a15c2c?ua=clash-verge/v2.5.1"
+    path: ./ProxySet/dtqy/ai_agent_net_d060bd1e8ddf95e81c4b2df3c3ccca56.yaml
+    url: "http://blue2sea.com/clash/proxies/aiAgent/e6291a59a687266794122df53eb70f6d?ua=clash-verge/v2.5.1"
     interval: 300
     filter: ''
     health-check:
@@ -19,8 +19,8 @@ proxy-providers:
       interval: 120
   ALL-NET:
     type: http
-    path: ./ProxySet/dtqy/dt_net_e6d816a33e0c596fc8e7b2add3e4615d.yaml
-    url: "http://blue2sea.com/clash/proxies/a49daf160cc2a3917d4c530a08a15c2c?ua=clash-verge/v2.5.1"
+    path: ./ProxySet/dtqy/dt_net_d060bd1e8ddf95e81c4b2df3c3ccca56.yaml
+    url: "http://blue2sea.com/clash/proxies/e6291a59a687266794122df53eb70f6d?ua=clash-verge/v2.5.1"
     interval: 300
     filter: ''
     health-check:
@@ -38,6 +38,7 @@ proxy-groups:
     proxies:
       - 自动选择(全部节点)
       - 自动选择(不含香港&台湾)
+      - DIRECT
     use:
       - ALL-NET
 
@@ -47,6 +48,7 @@ proxy-groups:
     interval: 30
     use:
         - ALL-NET
+    filter: '(?!.*_31$)'
 
   - name: 自动选择(不含香港&台湾)
     type: url-test
@@ -54,6 +56,7 @@ proxy-groups:
     interval: 30
     use:
       - AiAGENT-NET
+    filter: '(?!.*_31$)'
 
   - name: AiAgent
     type: fallback
@@ -72,11 +75,12 @@ proxy-groups:
       - 自动选择(全部节点)
 
   - name: PROXY
-    type: fallback
-    url: https://cp.cloudflare.com/generate_204
-    interval: 30
+    type: select
     proxies:
       - Out
+      - 天边外丨blue2sea.com
+      - DIRECT
+
   - name: 🔒 纯净独享丨流媒体解锁
     type: url-test
     url: https://cp.cloudflare.com/generate_204
