@@ -54,13 +54,13 @@ jobs:
           page_text = unescape(fetch_text(QUERY_PAGE_URL, PAGE_HEADERS))
 
           match = re.search(
-              r"公共订阅链接为[：:]\s*(https?://[^\s<\"'，。]+)",
+              r"公共订阅链接[：:]\s*(https?://[^\s<\"'，。]+)",
               page_text,
               flags=re.IGNORECASE,
           )
 
           if not match:
-              print("没有找到“公共订阅链接为：”后面的订阅地址", file=sys.stderr)
+              print("没有找到“公共订阅链接：”后面的订阅地址", file=sys.stderr)
               sys.exit(1)
 
           subscription_url = match.group(1).strip()
