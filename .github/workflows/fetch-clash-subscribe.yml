@@ -2,12 +2,9 @@ name: Fetch Clash Subscribe Link
 
 on:
   schedule:
-    # 每 5 小时触发一次，第 23 分钟避开整点高峰
     - cron: '23 */5 * * *'
   workflow_dispatch:
 
-# ===== 关键修复：并发控制 =====
-# 同一分支上，新实例启动时自动取消正在运行的旧实例
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -24,24 +21,38 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Long-running monitor loop (up to 6h)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # ===== 关键修复：捕获 GitHub 的取消信号 (SIGTERM) =====
-          # 当新实例启动导致本实例被取消时，立即退出循环，不要继续 sleep 或 push
           trap 'echo ">>> Workflow cancelled by newer run, exiting gracefully..."; exit 0' SIGTERM SIGINT
           
           counter=1
           while true; do
             echo "=== Check #$counter at $(date '+%Y-%m-%d %H:%M:%S') ==="
             
-            # 获取对方 README.md 最新 commit SHA
-            LATEST_SHA=$(curl -sL \
+            # ===== 修复：使用 GITHUB_TOKEN 认证，提升 API 速率限制 =====
+            API_RESPONSE=$(curl -sL \
               -H "Accept: application/vnd.github.v3+json" \
               -H "User-Agent: GitHub-Actions-Bot" \
-              "https://api.github.com/repos/tolinkshare2/tolinkshare2.github.io/commits?path=README.md&page=1&per_page=1" | \
-              jq -r '.[0].sha // empty')
+              -H "Authorization: Bearer $GITHUB_TOKEN" \
+              "https://api.github.com/repos/tolinkshare2/tolinkshare2.github.io/commits?path=README.md&page=1&per_page=1")
+            
+            # ===== 修复：校验 API 响应是否为数组，避免 jq 报错 =====
+            if ! echo "$API_RESPONSE" | jq -e 'type == "array"' >/dev/null 2>&1; then
+              echo "ERROR: GitHub API did not return an array. Response:"
+              echo "$API_RESPONSE"
+              echo "Will retry in 5 min"
+              sleep 300
+              counter=$((counter + 1))
+              continue
+            fi
+            
+            LATEST_SHA=$(echo "$API_RESPONSE" | jq -r '.[0].sha // empty')
             
             if [ -z "$LATEST_SHA" ] || [ "$LATEST_SHA" = "null" ]; then
-              echo "ERROR: Failed to fetch SHA, will retry in 5 min"
+              echo "ERROR: Failed to fetch SHA, API response:"
+              echo "$API_RESPONSE"
+              echo "Will retry in 5 min"
               sleep 300
               counter=$((counter + 1))
               continue
@@ -49,7 +60,6 @@ jobs:
             
             echo "Latest SHA: $LATEST_SHA"
             
-            # 读取本地记录的上一次 SHA
             if [ -f .last_commit_sha ]; then
               LAST_SHA=$(cat .last_commit_sha)
               echo "Last SHA: $LAST_SHA"
@@ -58,13 +68,11 @@ jobs:
               echo "No previous SHA found"
             fi
             
-            # 对比 SHA
             if [ "$LAST_SHA" = "$LATEST_SHA" ]; then
               echo "No change detected."
             else
               echo "Change detected! Fetching new subscribe link..."
               
-              # 提取订阅链接
               curl -sL "https://github.com/tolinkshare2/tolinkshare2.github.io" -o page.html
               SUBSCRIBE_URL=$(grep -oP 'https://[a-zA-Z0-9]+\.tosslk\.xyz/[a-zA-Z0-9]+' page.html | head -1)
               
@@ -77,14 +85,12 @@ jobs:
               
               echo "Subscribe URL: $SUBSCRIBE_URL"
               
-              # 下载订阅内容
               curl -sL \
                 -A "clash-verge/v2.5.2" \
                 -H "Accept: application/yaml, text/yaml, */*" \
                 --max-time 30 \
                 "$SUBSCRIBE_URL" -o subscribe_content.yaml
               
-              # 检查维护提示
               if grep -q "节点加速器\|已停止维护\|官方网站\|更换下载" subscribe_content.yaml; then
                 echo "ERROR: Got maintenance notice, will retry in 5 min"
                 cat subscribe_content.yaml
@@ -102,22 +108,17 @@ jobs:
               
               echo "Content size: $(wc -c < subscribe_content.yaml) bytes"
               
-              # 更新文件
               mkdir -p tosslk
               cp subscribe_content.yaml tosslk/tosslk
               echo "$LATEST_SHA" > .last_commit_sha
               
-              # 提交推送
               git config user.name "GitHub Actions Bot"
               git config user.email "actions@github.com"
               git add tosslk/ .last_commit_sha
               
               if ! git diff --cached --quiet; then
                 git commit -m "Update Clash subscribe [$(date '+%Y-%m-%d %H:%M:%S')] - Source: $SUBSCRIBE_URL"
-                
-                # ===== 关键修复：push 前先拉取最新代码，防止冲突 =====
                 git pull --rebase origin main || true
-                
                 git push
                 echo "Pushed successfully!"
               else
