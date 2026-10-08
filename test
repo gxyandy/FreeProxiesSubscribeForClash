@@ -7,20 +7,10 @@ http-opts:
   timeout: 150000
 
 proxy-providers:
-  AiAGENT-NET:
-    type: http
-    path: ./ProxySet/dtqy/ai_agent_net_9d7dde811afe7d66dd62496d64dd939e.yaml
-    url: "http://blue2sea.com/clash/proxies/aiAgent/acc12ab1351733bad29362950cf3d42a?ua=clash-verge/v2.5.1"
-    interval: 100
-    filter: ''
-    health-check:
-      enable: true
-      url: https://cp.cloudflare.com/generate_204
-      interval: 120
   ALL-NET:
     type: http
-    path: ./ProxySet/dtqy/dt_net_9d7dde811afe7d66dd62496d64dd939e.yaml
-    url: "http://blue2sea.com/clash/proxies/acc12ab1351733bad29362950cf3d42a?ua=clash-verge/v2.5.1"
+    path: ./ProxySet/dtqy/dt_net_0a5eac4225fcb3de498acc8df15bbd12.yaml
+    url: "http://blue2sea.com/clash/proxies/78ab9e680a8fc265a675036756782d84?ua=clash-verge/v2.5.1"
     interval: 100
     filter: ''
     health-check:
@@ -55,7 +45,7 @@ proxy-groups:
     url: https://cp.cloudflare.com/generate_204
     interval: 30
     use:
-      - AiAGENT-NET
+      - ALL-NET
     filter: '(?!.*_31$)'
 
   - name: AiAgent
@@ -145,7 +135,7 @@ rule-providers:
   aiagent:
     type: http
     behavior: domain
-    url: "https://blue2sea.com"
+    url: "http://blue2sea.com/downloads/clash-rules/aiagent.txt"
     path: ./RuleSet/aiagent.yaml
     interval: 86400
   reject:
@@ -169,7 +159,7 @@ rule-providers:
   direct:
     type: http
     behavior: domain
-    url: "https://jsdelivr.net"
+    url: "http://blue2sea.com/downloads/clash-rules/direct.txt"
     path: ./RuleSet/direct.yaml
     interval: 86400
   private:
