@@ -138,64 +138,76 @@ rule-providers:
     url: "http://blue2sea.com/downloads/clash-rules/aiagent.txt"
     path: ./RuleSet/aiagent.yaml
     interval: 86400
-  reject:
+  reject1:
     type: http
     behavior: domain
-    url: "https://jsdelivr.net"
-    path: ./RuleSet/reject.yaml
+    url: "http://blue2sea.com/downloads/clash-rules/reject1.txt"
+    path: ./RuleSet/reject1.yaml
+    interval: 86400
+  reject2:
+    type: http
+    behavior: domain
+    url: "http://blue2sea.com/downloads/clash-rules/reject2.txt"
+    path: ./RuleSet/reject2.yaml
     interval: 86400
   google:
     type: http
     behavior: domain
-    url: "https://jsdelivr.net"
+    url: "http://blue2sea.com/downloads/clash-rules/google.txt"
     path: ./RuleSet/google.yaml
     interval: 86400
   proxy:
     type: http
     behavior: domain
-    url: "https://jsdelivr.net"
+    url: "http://blue2sea.com/downloads/clash-rules/proxy.txt"
     path: ./RuleSet/proxy.yaml
     interval: 86400
-  direct:
+  direct1:
     type: http
     behavior: domain
-    url: "http://blue2sea.com/downloads/clash-rules/direct.txt"
-    path: ./RuleSet/direct.yaml
+    url: "http://blue2sea.com/downloads/clash-rules/direct1.txt"
+    path: ./RuleSet/direct1.yaml
+    interval: 86400
+  direct2:
+    type: http
+    behavior: domain
+    url: "http://blue2sea.com/downloads/clash-rules/direct2.txt"
+    path: ./RuleSet/direct2.yaml
     interval: 86400
   private:
     type: http
     behavior: domain
-    url: "https://blue2sea.com"
+    url: "http://blue2sea.com/downloads/clash-rules/private.txt"
     path: ./RuleSet/private.yaml
     interval: 86400
   gfw:
     type: http
     behavior: domain
-    url: "https://jsdelivr.net"
+    url: "http://blue2sea.com/downloads/clash-rules/gfw.txt"
     path: ./RuleSet/gfw.yaml
     interval: 86400
   tld-not-cn:
     type: http
     behavior: domain
-    url: "https://jsdelivr.net"
+    url: "http://blue2sea.com/downloads/clash-rules/tld-not-cn.txt"
     path: ./RuleSet/tld-not-cn.yaml
     interval: 86400
   telegramcidr:
     type: http
     behavior: ipcidr
-    url: "https://jsdelivr.net"
+    url: "http://blue2sea.com/downloads/clash-rules/telegramcidr.txt"
     path: ./RuleSet/telegramcidr.yaml
     interval: 86400
   cncidr:
     type: http
     behavior: ipcidr
-    url: "https://jsdelivr.net"
+    url: "http://blue2sea.com/downloads/clash-rules/cncidr.txt"
     path: ./RuleSet/cncidr.yaml
     interval: 86400
   lancidr:
      type: http
      behavior: ipcidr
-     url: "https://jsdelivr.net"
+     url: "http://blue2sea.com/downloads/clash-rules/lancidr.txt"
      path: ./RuleSet/lancidr.yaml
      interval: 86400
 
@@ -306,7 +318,10 @@ rules:
 
   - RULE-SET,aiagent,AiAgent
   - RULE-SET,private,DIRECT
-  - RULE-SET,reject,REJECT
+  - RULE-SET,reject1,REJECT
+  - RULE-SET,reject2,REJECT
+  - RULE-SET,direct1,DIRECT
+  - RULE-SET,direct2,DIRECT
   - RULE-SET,google,PROXY
   - RULE-SET,proxy,PROXY
   - RULE-SET,gfw,PROXY
