@@ -9,8 +9,8 @@ http-opts:
 proxy-providers:
   ALL-NET:
     type: http
-    path: ./ProxySet/dtqy/dt_net_da014d9a7e511ee8a915cd1906ad2cd3.yaml
-    url: "http://blue2sea.com/clash/proxies/a3655688fe1f57e962c738a92739eeb6?ua=clash-verge/v2.5.1"
+    path: ./ProxySet/dtqy/dt_net_aacd044597eeb5daecea425f9823b840.yaml
+    url: "http://blue2sea.com/clash/proxies/c706ebca18b26c470b17c55c68cac6f8?ua=clash-verge/v2.5.1"
     interval: 100
     filter: ''
     health-check:
@@ -261,7 +261,6 @@ rules:
   - DOMAIN-SUFFIX,byteoversea.com,🎬 超清多媒体丨大数据加速
   - DOMAIN-SUFFIX,twitch.tv,🎬 超清多媒体丨大数据加速
   - DOMAIN-SUFFIX,ttvnw.net,🎬 超清多媒体丨大数据加速
-  - DOMAIN-SUFFIX,bilibili.com,🎬 超清多媒体丨大数据加速
   - DOMAIN-SUFFIX,hdslb.com,🎬 超清多媒体丨大数据加速
   - IP-CIDR,8.41.4.0/24,Netflix,no-resolve
   - IP-CIDR,23.246.0.0/18,Netflix,no-resolve
