@@ -9,9 +9,9 @@ http-opts:
 proxy-providers:
   ALL-NET:
     type: http
-    path: ./ProxySet/dtqy/dt_net_0909c724c169f65090cb1aa403a11f85.yaml
-    url: "http://blue2sea.com/clash/proxies/d4d32dd4fa149d72d5ac41ef58850c7c?ua=clash-verge/v2.5.1"
-    interval: 100
+    path: ./ProxySet/dtqy/dt_net_4c339828ab9d4924628a5be7e42204b9.yaml
+    url: "http://blue2sea.com/clash/proxies/b08794d1b6031f8e59b82db8e3b8eb8e?ua=clash-verge/v2.5.1"
+    interval: 150
     filter: ''
     health-check:
       enable: true
@@ -28,7 +28,6 @@ proxy-groups:
     proxies:
       - 自动选择(全部节点)
       - 自动选择(不含香港&台湾)
-      - DIRECT
     use:
       - ALL-NET
 
@@ -38,7 +37,7 @@ proxy-groups:
     interval: 30
     use:
         - ALL-NET
-    filter: '(?!.*_31$)'
+    filter: '^(?!.*(_31)).*$'
 
   - name: 自动选择(不含香港&台湾)
     type: url-test
@@ -46,7 +45,7 @@ proxy-groups:
     interval: 30
     use:
       - ALL-NET
-    filter: '(?!.*_31$)'
+    filter: '^(?!.*(HK|TW|_0)).*$'
 
   - name: AiAgent
     type: fallback
@@ -77,7 +76,7 @@ proxy-groups:
     interval: 30
     use:
       - ALL-NET
-    filter: '(?!.*_31$)'
+    filter: '^(?!.*(_31)).*$'
 
   - name: 天边外丨优选
     type: url-test
@@ -85,7 +84,7 @@ proxy-groups:
     interval: 10
     use:
       - ALL-NET
-    filter: '(?!.*_31$)'
+    filter: '^(?!.*(_31)).*$'
 
   - name: 🎬 超清多媒体丨大数据加速
     type: fallback
@@ -124,7 +123,7 @@ proxy-groups:
       - DIR
       - Out
 
-  - name: DIR
+  - name: 直连
     type: select
     proxies:
       - DIRECT
