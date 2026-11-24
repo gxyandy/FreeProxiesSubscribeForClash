@@ -9,8 +9,8 @@ http-opts:
 proxy-providers:
   ALL-NET:
     type: http
-    path: ./ProxySet/dtqy/dt_net_732e40cf350cf3e0e7a910aa3882d50e.yaml
-    url: "http://blue2sea.com/clash/proxies/1c7332b2254745d143fdf1f6253d0466?ua=clash-verge/v2.5.1"
+    path: ./ProxySet/dtqy/dt_net_1bdfa4fa3c0dcc7a440dfcc75e4611f0.yaml
+    url: "http://blue2sea.com/clash/proxies/1294d39828c1f149caed515fbf3979c5?ua=clash-verge/v2.5.1"
     interval: 150
     filter: ''
     health-check:
@@ -18,117 +18,106 @@ proxy-providers:
       url: https://cp.cloudflare.com/generate_204
       interval: 120
 
-
 proxy-groups:
-
-  - name: 天边外丨blue2sea.com
+  - name: 全部节点丨blue2sea.com
     type: select
     url: https://cp.cloudflare.com/generate_204
     interval: 60
     proxies:
-      - 自动选择(全部节点)
-      - 自动选择(不含香港&台湾)
+      - 综合AI自动
+      - ChatGPT优选
+      - Gemini优选
     use:
       - ALL-NET
 
-  - name: 自动选择(全部节点)
+  # 开始
+  - name: 严选丨流量倍率0.3
     type: url-test
-    url: https://cp.cloudflare.com/generate_204
-    interval: 30
+    filter: "_0.*$"
     use:
-        - ALL-NET
+      - ALL-NET
+    url: http://www.gstatic.com/generate_204
+    interval: 60
+    hidden: true
+
+  - name: 精选丨流量倍率0.5
+    type: url-test
+    filter: "_0.*$"
+    use:
+      - ALL-NET
+    url: http://www.gstatic.com/generate_204
+    interval: 60
+    hidden: true
+
+  - name: 专线丨流量倍率2
+    type: url-test
+    filter: "_ad.*$"
+    use:
+      - ALL-NET
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+    hidden: true
+
+  - name: 🎬 超清多媒体丨大数据加速
+    type: load-balance
+    proxies:
+      - 严选丨流量倍率0.3
+      - 精选丨流量倍率0.5
+      - 专线丨流量倍率2
+      - 精选丨流量倍率0.5
+      - 严选丨流量倍率0.3
+    strategy: round-robin
+    url: http://www.gstatic.com/generate_204
+    interval: 30
+    hidden: true
     filter: '^(?!.*(_31)).*$'
 
-  - name: 自动选择(不含香港&台湾)
+  # 结束
+
+  - name: 综合AI自动
     type: url-test
     url: https://cp.cloudflare.com/generate_204
-    interval: 30
+    interval: 60
     use:
       - ALL-NET
     filter: '^(?!.*(HK|TW|_0)).*$'
+    hidden: true
 
-  - name: AiAgent
-    type: fallback
-    url: https://cp.cloudflare.com/generate_204
-    interval: 30
-    proxies:
-      - 天边外丨blue2sea.com
-      - 自动选择(不含香港&台湾)
-
-  - name: Out
-    type: fallback
-    url: https://cp.cloudflare.com/generate_204
-    interval: 30
-    proxies:
-      - 天边外丨blue2sea.com
-      - 自动选择(全部节点)
-
-  - name: PROXY
-    type: select
-    proxies:
-      - Out
-      - 天边外丨blue2sea.com
-      - DIRECT
-
-  - name: 🔒 纯净独享丨流媒体解锁
+  - name: ChatGPT优选
     type: url-test
     url: https://cp.cloudflare.com/generate_204
-    interval: 30
+    interval: 60
     use:
       - ALL-NET
-    filter: '^(?!.*(_31)).*$'
+    filter: '^(?!.*(HK|TW|_0)).*$'
+    hidden: true
 
-  - name: 天边外丨优选
+  - name: Gemini优选
     type: url-test
     url: https://cp.cloudflare.com/generate_204
-    interval: 10
+    interval: 60
     use:
       - ALL-NET
-    filter: '^(?!.*(_31)).*$'
-
-  - name: 🎬 超清多媒体丨大数据加速
-    type: fallback
-    url: https://cp.cloudflare.com/generate_204
-    interval: 15
-    proxies:
-      - 🔒 纯净独享丨流媒体解锁
-      - 天边外丨优选
-
-  - name: Youtube
-    type: fallback
-    url: https://cp.cloudflare.com/generate_204
-    interval: 15
-    proxies:
-      - 🎬 超清多媒体丨大数据加速
+    filter: '^(?!.*(HK|TW|_0)).*$'
+    hidden: true
 
   - name: Netflix
-    type: fallback
-    url: https://cp.cloudflare.com/generate_204
-    interval: 15
-    proxies:
-      - 🎬 超清多媒体丨大数据加速
-
-  - name: Telegram
-    type: fallback
-    url: https://cp.cloudflare.com/generate_204
-    interval: 30
-    proxies:
-      - Out
-
-  - name: Apple
-    type: fallback
-    url: https://cp.cloudflare.com/generate_204
-    interval: 30
-    proxies:
-      - 直连
-      - Out
-
-  - name: 直连
     type: select
+    url: https://cp.cloudflare.com/generate_204
+    interval: 60
     proxies:
-      - DIRECT
+      - 全部节点丨blue2sea.com
+    use:
+      - ALL-NET
+    hidden: true
 
-
+  - name: PROXY
+    type: url-test
+    url: https://cp.cloudflare.com/generate_204
+    interval: 60
+    use:
+      - ALL-NET
+    hidden: true
 
 rule-providers:
   aiagent:
@@ -137,81 +126,92 @@ rule-providers:
     url: "http://blue2sea.com/downloads/clash-rules/aiagent.txt"
     path: ./RuleSet/aiagent.yaml
     interval: 86400
+
   reject1:
     type: http
     behavior: domain
     url: "http://blue2sea.com/downloads/clash-rules/reject1.txt"
     path: ./RuleSet/reject1.yaml
     interval: 86400
+
   reject2:
     type: http
     behavior: domain
     url: "http://blue2sea.com/downloads/clash-rules/reject2.txt"
     path: ./RuleSet/reject2.yaml
     interval: 86400
+
   google:
     type: http
     behavior: domain
     url: "http://blue2sea.com/downloads/clash-rules/google.txt"
     path: ./RuleSet/google.yaml
     interval: 86400
+
   proxy:
     type: http
     behavior: domain
     url: "http://blue2sea.com/downloads/clash-rules/proxy.txt"
     path: ./RuleSet/proxy.yaml
     interval: 86400
+
   direct1:
     type: http
     behavior: domain
     url: "http://blue2sea.com/downloads/clash-rules/direct1.txt"
     path: ./RuleSet/direct1.yaml
     interval: 86400
+
   direct2:
     type: http
     behavior: domain
     url: "http://blue2sea.com/downloads/clash-rules/direct2.txt"
     path: ./RuleSet/direct2.yaml
     interval: 86400
+
   private:
     type: http
     behavior: domain
     url: "http://blue2sea.com/downloads/clash-rules/private.txt"
     path: ./RuleSet/private.yaml
     interval: 86400
+
   gfw:
     type: http
     behavior: domain
     url: "http://blue2sea.com/downloads/clash-rules/gfw.txt"
     path: ./RuleSet/gfw.yaml
     interval: 86400
+
   tld-not-cn:
     type: http
     behavior: domain
     url: "http://blue2sea.com/downloads/clash-rules/tld-not-cn.txt"
     path: ./RuleSet/tld-not-cn.yaml
     interval: 86400
+
   telegramcidr:
     type: http
     behavior: ipcidr
     url: "http://blue2sea.com/downloads/clash-rules/telegramcidr.txt"
     path: ./RuleSet/telegramcidr.yaml
     interval: 86400
+
   cncidr:
     type: http
     behavior: ipcidr
     url: "http://blue2sea.com/downloads/clash-rules/cncidr.txt"
     path: ./RuleSet/cncidr.yaml
     interval: 86400
+
   lancidr:
-     type: http
-     behavior: ipcidr
-     url: "http://blue2sea.com/downloads/clash-rules/lancidr.txt"
-     path: ./RuleSet/lancidr.yaml
-     interval: 86400
+    type: http
+    behavior: ipcidr
+    url: "http://blue2sea.com/downloads/clash-rules/lancidr.txt"
+    path: ./RuleSet/lancidr.yaml
+    interval: 86400
 
 rules:
-
   - DOMAIN-SUFFIX,huggingface.co,🎬 超清多媒体丨大数据加速
   - DOMAIN-SUFFIX,hf.co,🎬 超清多媒体丨大数据加速
   - DOMAIN-SUFFIX,hf-mirror.com,🎬 超清多媒体丨大数据加速
@@ -220,20 +220,21 @@ rules:
   - DOMAIN-KEYWORD,github-cloud,🎬 超清多媒体丨大数据加速
   - DOMAIN-KEYWORD,github-production,🎬 超清多媒体丨大数据加速
 
-  - DOMAIN-KEYWORD,youtube,Youtube
-  - DOMAIN,://googleapis.com,Youtube
-  - DOMAIN,://ggpht.com,Youtube
-  - DOMAIN-SUFFIX,googlevideo.com,Youtube
-  - DOMAIN-SUFFIX,gvt2.com,Youtube
-  - DOMAIN-SUFFIX,withyoutube.com,Youtube
-  - DOMAIN-SUFFIX,youtu.be,Youtube
-  - DOMAIN-SUFFIX,youtube-nocookie.com,Youtube
-  - DOMAIN-SUFFIX,youtube.com,Youtube
-  - DOMAIN-SUFFIX,youtubeeducation.com,Youtube
-  - DOMAIN-SUFFIX,youtubegaming.com,Youtube
-  - DOMAIN-SUFFIX,youtubekids.com,Youtube
-  - DOMAIN-SUFFIX,yt.be,Youtube
-  - DOMAIN-SUFFIX,ytimg.com,Youtube
+  - DOMAIN-KEYWORD,youtube,🎬 超清多媒体丨大数据加速
+  - DOMAIN,://googleapis.com,🎬 超清多媒体丨大数据加速
+  - DOMAIN,://ggpht.com,🎬 超清多媒体丨大数据加速
+  - DOMAIN-SUFFIX,googlevideo.com,🎬 超清多媒体丨大数据加速
+  - DOMAIN-SUFFIX,gvt2.com,🎬 超清多媒体丨大数据加速
+  - DOMAIN-SUFFIX,withyoutube.com,🎬 超清多媒体丨大数据加速
+  - DOMAIN-SUFFIX,youtu.be,🎬 超清多媒体丨大数据加速
+  - DOMAIN-SUFFIX,youtube-nocookie.com,🎬 超清多媒体丨大数据加速
+  - DOMAIN-SUFFIX,youtube.com,🎬 超清多媒体丨大数据加速
+  - DOMAIN-SUFFIX,youtubeeducation.com,🎬 超清多媒体丨大数据加速
+  - DOMAIN-SUFFIX,youtubegaming.com,🎬 超清多媒体丨大数据加速
+  - DOMAIN-SUFFIX,youtubekids.com,🎬 超清多媒体丨大数据加速
+  - DOMAIN-SUFFIX,yt.be,🎬 超清多媒体丨大数据加速
+  - DOMAIN-SUFFIX,ytimg.com,🎬 超清多媒体丨大数据加速
+
   - DOMAIN-KEYWORD,netflixdnstest,Netflix
   - DOMAIN,netflix.com.edgesuite.net,Netflix
   - DOMAIN-SUFFIX,fast.com,Netflix
@@ -254,13 +255,15 @@ rules:
   - DOMAIN-SUFFIX,nflximg.net,Netflix
   - DOMAIN-SUFFIX,nflxso.net,Netflix
   - DOMAIN-SUFFIX,nflxvideo.net,Netflix
+
   - DOMAIN-SUFFIX,disneyplus.com,🎬 超清多媒体丨大数据加速
   - DOMAIN-SUFFIX,bamgrid.com,🎬 超清多媒体丨大数据加速
   - DOMAIN-KEYWORD,tiktok,🎬 超清多媒体丨大数据加速
   - DOMAIN-SUFFIX,byteoversea.com,🎬 超清多媒体丨大数据加速
   - DOMAIN-SUFFIX,twitch.tv,🎬 超清多媒体丨大数据加速
-  - DOMAIN-SUFFIX,ttvnw.net,🎬 超清多媒体丨大数据加速
+  - DOMAIN-SUFFIX,ttvnw\.net,🎬 超清多媒体丨大数据加速
   - DOMAIN-SUFFIX,hdslb.com,🎬 超清多媒体丨大数据加速
+
   - IP-CIDR,8.41.4.0/24,Netflix,no-resolve
   - IP-CIDR,23.246.0.0/18,Netflix,no-resolve
   - IP-CIDR,37.77.184.0/21,Netflix,no-resolve
@@ -278,7 +281,6 @@ rules:
   - IP-CIDR,198.45.48.0/20,Netflix,no-resolve
   - IP-CIDR,207.45.72.0/22,Netflix,no-resolve
   - IP-CIDR,208.75.76.0/22,Netflix,no-resolve
-
 
   - PROCESS-NAME,v2ray,DIRECT
   - PROCESS-NAME,xray,DIRECT
@@ -313,8 +315,7 @@ rules:
   - PROCESS-NAME,NetTransport,DIRECT
   - PROCESS-NAME,uTorrent,DIRECT
 
-
-  - RULE-SET,aiagent,AiAgent
+  - RULE-SET,aiagent,全部节点丨blue2sea.com
   - RULE-SET,private,DIRECT
   - RULE-SET,reject1,REJECT
   - RULE-SET,reject2,REJECT
@@ -326,7 +327,7 @@ rules:
   - RULE-SET,tld-not-cn,PROXY
   - RULE-SET,lancidr,DIRECT
   - RULE-SET,cncidr,DIRECT
-  - RULE-SET,telegramcidr,Telegram
+  - RULE-SET,telegramcidr,全部节点丨blue2sea.com
   - GEOIP,lan,DIRECT
   - GEOIP,cn,DIRECT
   - MATCH,PROXY
