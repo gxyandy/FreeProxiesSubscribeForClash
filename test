@@ -9,8 +9,8 @@ http-opts:
 proxy-providers:
   ALL-NET:
     type: http
-    path: ./ProxySet/dtqy/dt_net_d53904a71db675e220a41d42f8a8febe.yaml
-    url: "http://blue2sea.com/clash/proxies/067cf1edac2bfe5dffef6b96225d930a?ua=clash-verge/v2.5.1"
+    path: ./ProxySet/dtqy/dt_net_42209475f5cbf6337ce4c6613dac3629.yaml
+    url: "http://blue2sea.com/clash/proxies/b8df1f9682d8f282cb10a36a73eb31f3?ua=clash-verge/v2.5.1"
     interval: 150
     filter: ''
     health-check:
